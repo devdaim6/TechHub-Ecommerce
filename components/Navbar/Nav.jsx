@@ -1,10 +1,10 @@
 import React from "react";
 import ThemeSelectorButton from "./ThemeSelectorButton";
 import ThemeSelector from "./ThemeSelector";
-
+import Link from "next/link";
 const Nav = () => {
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 mb-0 border-b border-b-neutral">
       <div className="navbar-start lg:hidden md:flex">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -28,19 +28,45 @@ const Nav = () => {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>Homepage</a>
+              <Link href="/">Home</Link>
             </li>
             <li>
-              <a>Portfolio</a>
+              <Link href="/products">Products</Link>
             </li>
             <li>
-              <a>About</a>
+              <Link href="/about">About</Link>
             </li>
           </ul>
         </div>
       </div>
       <div className="lg:navbar-start">
         <a className="btn btn-ghost text-xl">TechHub</a>
+      </div>
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal px-1">
+          <li>
+            <Link href="/">Home</Link>
+          </li>
+          {/* <li>
+            <details>
+              <summary>Parent</summary>
+              <ul className="p-2">
+                <li>
+                  <a>Submenu 1</a>
+                </li>
+                <li>
+                  <a>Submenu 2</a>
+                </li>
+              </ul>
+            </details>
+          </li> */}
+          <li>
+            <Link href="/products">Products</Link>
+          </li>
+          <li>
+            <Link href="/about">About</Link>
+          </li>
+        </ul>
       </div>
 
       <div className="navbar-end">
