@@ -9,17 +9,11 @@ module.exports = {
     themes: [
       "light",
       "dark",
-      "cupcake",
-      "bumblebee",
       "cyberpunk",
-      "valentine",
-      "black",
       "luxury",
       "dracula",
       "cmyk",
-      "autumn",
       "winter",
-      "dim",
       "sunset",
     ],
 

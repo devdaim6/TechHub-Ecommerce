@@ -4,7 +4,7 @@ const ThemeSelectorButton = () => {
   return (
     <>
       <label className="swap swap-rotate">
-        <input type="checkbox" className="theme-controller" value="winter" />
+        <input type="checkbox" className="theme-controller" value="light" />
 
         {/* sun icon */}
         <svg

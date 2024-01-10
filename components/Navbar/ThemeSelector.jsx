@@ -1,10 +1,7 @@
+"use client";
 import React from "react";
 
 const ThemeSelector = () => {
-  const isBrowser = typeof window !== "undefined";
-  const systemThemeCheck = isBrowser
-    ? window.matchMedia("(prefers-color-scheme: dark)")
-    : null;
   return (
     <>
       <div className="dropdown  ">
@@ -27,49 +24,13 @@ const ThemeSelector = () => {
           <li>
             <input
               type="radio"
-              disabled
               name="theme-dropdown"
               className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="System Default"
-              value={`${systemThemeCheck ? "dark" : "light"}`}
+              value={"default"}
             />
           </li>
-          <li>
-            <input
-              type="radio"
-              name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label="Light"
-              value="light"
-            />
-          </li>
-          <li>
-            <input
-              type="radio"
-              name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label="Dark"
-              value="dark"
-            />
-          </li>
-          <li>
-            <input
-              type="radio"
-              name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label="CupCake"
-              value="cupcake"
-            />
-          </li>
-          <li>
-            <input
-              type="radio"
-              name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label="Bumblebee"
-              value="bumblebee"
-            />
-          </li>
+
           <li>
             <input
               type="radio"
@@ -80,24 +41,6 @@ const ThemeSelector = () => {
             />
           </li>
 
-          <li>
-            <input
-              type="radio"
-              name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label="Valentine"
-              value="valentine"
-            />
-          </li>
-          <li>
-            <input
-              type="radio"
-              name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label="Black"
-              value="black"
-            />
-          </li>
           <li>
             <input
               type="radio"
@@ -143,15 +86,7 @@ const ThemeSelector = () => {
               value="winter"
             />
           </li>
-          <li>
-            <input
-              type="radio"
-              name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label="Dim"
-              value="dim"
-            />
-          </li>
+
           <li>
             <input
               type="radio"
