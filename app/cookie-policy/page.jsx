@@ -6,8 +6,9 @@ const CookiePolicy = () => {
       <h1 className="text-4xl font-bold mb-6">Cookie Policy</h1>
 
       <p className="mb-4">
-        This Cookie Policy explains how TechHub ("we," "our," or "us") uses
-        cookies on our website ("Service").
+        This Cookie Policy explains how TechHub (&rdquo;we,&rdquo;
+        &rdquo;our,&rdquo; or &rdquo;us&rdquo;) uses cookies on our website
+        (&rdquo;Service&rdquo;).
       </p>
 
       <h2 className="text-2xl font-bold mb-3">1. What Are Cookies?</h2>

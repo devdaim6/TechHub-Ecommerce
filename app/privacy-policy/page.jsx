@@ -6,9 +6,10 @@ const PrivacyPolicy = () => {
       <h1 className="text-4xl font-bold mb-6">Privacy Policy</h1>
 
       <p className="mb-4">
-        This Privacy Policy outlines how TechHub ("we," "our," or "us")
-        collects, uses, maintains, and discloses information collected from
-        users of the TechHub website ("Service").
+        This Privacy Policy outlines how TechHub (&rdquo;we,&rdquo; "our,&rdquo;
+        or &rdquo;us&rdquo;) collects, uses, maintains, and discloses
+        information collected from users of the TechHub website
+        (&rdquo;Service&rdquo;).
       </p>
 
       <h2 className="text-2xl font-bold mb-3">1. Information We Collect</h2>
@@ -40,7 +41,7 @@ const PrivacyPolicy = () => {
         4. Sharing Your Personal Information
       </h2>
       <p className="mb-4">
-        We do not sell, trade, or rent users' personal identification
+        We do not sell, trade, or rent users&apos; personal identification
         information to others. We may share generic aggregated demographic
         information not linked to any personal identification information
         regarding visitors and users with our business partners, trusted

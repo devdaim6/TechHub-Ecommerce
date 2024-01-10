@@ -11,11 +11,11 @@ const Login = () => {
             <p className="py-6">
               Reconnect to your personalized space with just a click. Log in to
               experience seamless access to a platform crafted for you. Whether
-              you're here to explore, collaborate, or create, we've got your
-              back. Your journey continues, and we're excited to have you on
-              board. Let's make every login a step towards unlocking new
-              opportunities and possibilities. Login now and dive into a world
-              tailored to your needs!
+              you&apos;re here to explore, collaborate, or create, we&apos;ve
+              got your back. Your journey continues, and we&apos;re excited to
+              have you on board. Let&apos;s make every login a step towards
+              unlocking new opportunities and possibilities. Login now and dive
+              into a world tailored to your needs!
             </p>
           </div>
           <div className="card shrink-0 w-full max-w-xl shadow-2xl bg-base-100">

@@ -6,7 +6,7 @@ const TermsOfService = () => {
       <h1 className="text-4xl font-bold mb-6">Terms of Service</h1>
 
       <p className="mb-4">
-        By using the TechHub website ("Service"), you agree to comply with and
+        By using the TechHub website (&rdquo;Service&rdquo;), you agree to comply with and
         be bound by the following terms and conditions of use. Please review the
         terms carefully. If you do not agree to these terms, you should not use
         this Service.
