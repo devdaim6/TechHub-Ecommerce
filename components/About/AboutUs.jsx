@@ -15,8 +15,8 @@ const AboutUs = () => {
             Welcome to Techhub - Where Innovation Meets Precision.
           </h2>
           <p className="text-base-content mb-6">
-            Techhub is not just a company; it's a testament to the marriage of
-            creativity and excellence. With an unwavering dedication to
+            Techhub is not just a company; it&apos;s a testament to the marriage
+            of creativity and excellence. With an unwavering dedication to
             customization and a relentless pursuit of quality, we transcend
             conventional boundaries. At Techhub, we pride ourselves on
             transforming abstract ideas into tangible realities across various
@@ -106,7 +106,7 @@ const AboutUs = () => {
                 Online Support
               </h4>
               <p className="text-base-content">
-                Techhub is not just about products; we're your partners in
+                Techhub is not just about products; we&apos;re your partners in
                 progress. Our dedicated team offers expert assistance in
                 navigating the intricacies of online processes, streamlining
                 tasks like scholarship applications, PAN card submissions, and
