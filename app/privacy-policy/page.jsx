@@ -6,7 +6,7 @@ const PrivacyPolicy = () => {
       <h1 className="text-4xl font-bold mb-6">Privacy Policy</h1>
 
       <p className="mb-4">
-        This Privacy Policy outlines how TechHub (&rdquo;we,&rdquo; "our,&rdquo;
+        This Privacy Policy outlines how TechHub (&rdquo;we,&rdquo; &rdquo;our,&rdquo;
         or &rdquo;us&rdquo;) collects, uses, maintains, and discloses
         information collected from users of the TechHub website
         (&rdquo;Service&rdquo;).
