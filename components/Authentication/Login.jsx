@@ -1,7 +1,40 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import ButtonLoading from "../ui/ButtonLoading";
 const Login = () => {
+  const router = useRouter();
+  const [submitting, setSubmitting] = useState(false);
+  const handleLogin = async (e) => {
+    try {
+      setSubmitting(true);
+      e.preventDefault();
+      const form = new FormData(e.currentTarget);
+      const username = form.get("username");
+      const password = form.get("password");
+      const res = await signIn("credentials", {
+        username: username,
+        password: password,
+        redirect: false,
+      });
+      console.log("signIn Response:", res); // Log the response
+      if (res.error) {
+        toast.error("Invalid Credentials");
+      } else {
+        toast.success("Logged In Successfully !");
+        setTimeout(() => {
+          router.push("/");
+        }, 1500);
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
   return (
     <>
       <div className="hero lg:min-h-screen min-h-full bg-base-200">
@@ -9,24 +42,22 @@ const Login = () => {
           <div className="text-center lg:text-left">
             <h1 className="text-5xl font-bold">Welcome back!</h1>
             <p className="py-6">
-              Reconnect to your personalized space with just a click. Log in to
-              experience seamless access to a platform crafted for you. Whether
-              you&apos;re here to explore, collaborate, or create, we&apos;ve
-              got your back. Your journey continues, and we&apos;re excited to
-              have you on board. Let&apos;s make every login a step towards
-              unlocking new opportunities and possibilities. Login now and dive
-              into a world tailored to your needs!
+              Log in for seamless access to a personalized platform. Whether
+              exploring, collaborating, or creating, we&apos;ve got you covered.
+              Your journey continues—unlock new opportunities with every login.
+              Dive into a world tailored to your needs!
             </p>
           </div>
           <div className="card shrink-0 w-full max-w-xl shadow-2xl bg-base-100">
-            <form className="card-body">
+            <form className="card-body" onSubmit={handleLogin}>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Email</span>
+                  <span className="label-text">Username</span>
                 </label>
                 <input
-                  type="email"
-                  placeholder="email"
+                  type="text"
+                  name="username"
+                  placeholder="Username"
                   className="input input-bordered"
                   required
                 />
@@ -36,6 +67,7 @@ const Login = () => {
                   <span className="label-text">Password</span>
                 </label>
                 <input
+                  name="password"
                   type="password"
                   placeholder="password"
                   className="input input-bordered"
@@ -51,7 +83,16 @@ const Login = () => {
                 </label>
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-accent">Login</button>
+                <button className="btn btn-accent">
+                  {submitting ? (
+                    <>
+                      Logging in &nbsp;
+                      <ButtonLoading />
+                    </>
+                  ) : (
+                    "Login"
+                  )}
+                </button>
               </div>
             </form>
           </div>

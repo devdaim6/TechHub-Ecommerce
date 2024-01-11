@@ -41,13 +41,13 @@ const Footer = () => {
         </nav>
         <nav>
           <header className="footer-title">Legal</header>
-          <Link href="#" className="link link-hover">
+          <Link href="/terms-of-services" className="link link-hover">
             Terms of Service
           </Link>
-          <Link href="#" className="link link-hover">
+          <Link href="/privacy-policy" className="link link-hover">
             Privacy Policy
           </Link>
-          <Link href="#" className="link link-hover">
+          <Link href="/cookie-policy" className="link link-hover">
             Cookie Policy
           </Link>
         </nav>

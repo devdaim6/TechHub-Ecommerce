@@ -1,10 +1,22 @@
-import React from "react";
-
+"use client";
+import React, { useEffect } from "react";
 const ThemeSelectorButton = () => {
+  let theme = "dark";
+  useEffect(() => {
+    const checkDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
+    if (checkDarkTheme.matches) {
+      theme = "light";
+    }
+  }, []);
+
   return (
     <>
       <label className="swap swap-rotate">
-        <input type="checkbox" className="theme-controller" value="light" />
+        <input
+          type="checkbox"
+          className="theme-controller"
+          value={theme == "light" ? "dark" : "light"}
+        />
 
         {/* sun icon */}
         <svg
