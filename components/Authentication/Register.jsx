@@ -1,6 +1,54 @@
+"use client";
 import React from "react";
-
+import { getBase64 } from "@/utils/util";
+import axios from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 const Register = () => {
+  const router = useRouter();
+  const handleRegistrationFormSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const form = new FormData(e.currentTarget);
+
+      const [name, password, username, phone, email] = [
+        "name",
+        "password",
+        "username",
+        "phone",
+        "email",
+      ].map((field) => form.get(field));
+      const image = await getBase64(form.get("image"));
+
+      const response = await axios.post("/api/auth/register", {
+        name,
+        username,
+        email,
+        password,
+        phone,
+        image,
+      });
+      if (response.data.status === 402) {
+        toast.success(response.data.message, {
+          description: response.data.description,
+        });
+      }
+      if (response.data.status === 403) {
+        toast.error(response.data.message);
+      }
+      if (response.data.status === 201) {
+        toast.success(response.data.message, {
+          description: response.data.description,
+        });
+        setTimeout(() => {
+          router.push("/auth/login");
+        }, 1000);
+      }
+    } catch (error) {
+      toast.error(response.data.message);
+      console.error("Error:", error);
+    }
+  };
   return (
     <>
       <div className="hero min-h-screen bg-base-200">
@@ -18,12 +66,13 @@ const Register = () => {
             </p>
           </div>
           <div className="card shrink-0 w-full max-w-xl shadow-2xl bg-base-100">
-            <form className="card-body">
+            <form className="card-body" onSubmit={handleRegistrationFormSubmit}>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Full Name</span>
                 </label>
                 <input
+                  name="name"
                   type="text"
                   placeholder="Full Name"
                   className="input input-bordered"
@@ -36,6 +85,7 @@ const Register = () => {
                     <span className="label-text">Username</span>
                   </label>
                   <input
+                    name="username"
                     type="text"
                     placeholder="Username"
                     className="input input-bordered"
@@ -49,6 +99,7 @@ const Register = () => {
                     <span className="label-text">Email</span>
                   </label>
                   <input
+                    name="email"
                     type="email"
                     placeholder="Email"
                     className="input input-bordered"
@@ -60,6 +111,7 @@ const Register = () => {
                     <span className="label-text">Phone</span>
                   </label>
                   <input
+                    name="phone"
                     type="tel"
                     placeholder="Mobile Number"
                     className="input input-bordered"
@@ -72,6 +124,7 @@ const Register = () => {
                     <span className="label-text">Password</span>
                   </label>
                   <input
+                    name="password"
                     type="password"
                     placeholder="Password"
                     className="input input-bordered"
@@ -86,13 +139,17 @@ const Register = () => {
                     </span>
                   </label>
                   <input
+                    name="image"
+                    accept=".jpg, .png|image/*"
                     type="file"
                     className="file-input file-input-bordered w-full max-w-xl"
                   />
                 </div>
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-accent">Register</button>
+                <button type="submit" className="btn btn-accent">
+                  Register
+                </button>
               </div>
             </form>
           </div>
