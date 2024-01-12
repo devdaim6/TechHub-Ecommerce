@@ -2,18 +2,24 @@
   "name": "ecom",
   "version": "0.1.0",
   "private": true,
- "scripts": {
+  "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.9",
+    "@apollo/server": "^4.10.0",
+    "@as-integrations/next": "^3.0.0",
     "@reduxjs/toolkit": "^2.0.1",
     "@sendgrid/mail": "^8.1.0",
     "@tailwindcss/typography": "^0.5.10",
+    "apollo-server-core": "^3.13.0",
     "axios": "^1.6.5",
     "bcryptjs": "^2.4.3",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.4",
     "next": "14.0.4",

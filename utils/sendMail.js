@@ -2,7 +2,7 @@ const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SG_MAIL_API_KEY);
 
 export const sendMail = async (
-  recipient,
+  reciepient,
   type,
   otp,
   expiration,
@@ -33,7 +33,7 @@ export const sendMail = async (
   switch (type) {
     case "otp":
       subject = "Your OTP for Verification";
-      title = `Email Verification`;
+      title = `Email Verification - TechHub`;
       message = `
         <div style="${commonStyles}">
           <div style="${headerStyles}">
@@ -50,9 +50,46 @@ export const sendMail = async (
       `;
       break;
 
+    case "recoverEmail":
+      subject = "Email Recovery";
+      title = `Recover your Email - TechHub`;
+      message = `
+        <div style="${commonStyles}">
+          <div style="${headerStyles}">
+            <h2>Hello ${username}!</h2>
+          </div>
+          <div style="${contentStyles}">
+            <p>Your email recovery information:</p>
+            <br/>
+            <p>your Account  is associated with this email address : <strong>${reciepient}
+            </strong>
+</p>          
+          </div>
+        </div>
+      `;
+      break;
+
+    case "recoverUsername":
+      subject = "Username Recovery";
+      title = `Recover your Username - TechHub`;
+      message = `
+          <div style="${commonStyles}">
+            <div style="${headerStyles}">
+              <h2>Dear user!</h2>
+            </div>
+            <div style="${contentStyles}">
+              <p>Your username recovery information</p>
+              <br/>
+              <p>your username is : <strong>${username}
+              </strong>
+</p>            </div>
+          </div>
+        `;
+      break;
+
     case "account":
       subject = "Welcome to Techhub";
-      title = `Get Started with Techhub`;
+      title = `Get Started with Techhub - TechHub`;
       message = `
         <div style="${commonStyles}">
         <div style="${headerStyles}">
@@ -68,7 +105,7 @@ export const sendMail = async (
 
     case "order":
       subject = "Order Confirmation";
-      title = `Order Confirmation`;
+      title = `Order Confirmation - TechHub`;
       message = `
         <div style="${commonStyles}">
           <div style="${headerStyles}">
@@ -88,7 +125,7 @@ export const sendMail = async (
   }
 
   const msg = {
-    to: recipient,
+    to: reciepient,
     from: {
       email: "daimdev6@gmail.com",
       name: title,
