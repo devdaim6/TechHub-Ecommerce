@@ -3,8 +3,23 @@ import React from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 const ForgotUsername = () => {
-  const handleSendUserNameToMail = async () => {};
+  const router = useRouter();
+  const handleSendUserNameToMail = async (e) => {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+    const email = form.get("email");
+    const response = await axios.post("/api/recover/username", {
+      email,
+    });
+    if (response?.data?.success) {
+      toast.success(response.data.message);
+      setTimeout(() => {
+        router.push("/auth/login");
+      }, 1200);
+    }
+  };
   return (
     <>
       {" "}
@@ -51,7 +66,9 @@ const ForgotUsername = () => {
                 </label>
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-accent">Recover</button>
+                <button type="submit" className="btn btn-accent">
+                  Recover
+                </button>
               </div>
             </form>
           </div>
