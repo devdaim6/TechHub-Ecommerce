@@ -23,7 +23,6 @@ export const authOptions = {
           }
 
           const passwordsMatch = await bcrypt.compare(password, user.password);
-          console.log(passwordsMatch);
 
           if (!passwordsMatch) {
             return null;
@@ -51,12 +50,13 @@ export const authOptions = {
         session.session.user.role = sessionUser?.role;
         session.session.user.image = sessionUser?.image;
         session.session.user.id = sessionUser?._id;
+        session.session.user.isVerified = sessionUser?.isVerified;
       }
       return session;
     },
   },
   pages: {
-    signIn: "/user/login",
+    signIn: "/auth/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
