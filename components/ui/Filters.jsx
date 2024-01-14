@@ -1,14 +1,18 @@
-import { Form, useLoaderData, Link } from "react-router-dom";
+"use client";
 import FormInput from "@/components/Form/FormInput";
 import FormSelect from "@/components/Form/FormSelect";
 import FormRange from "@/components/Form/FormRange";
 import FormCheckbox from "@/components/Form/FormCheckbox";
-const Filters = () => {
-  const { meta, params } = useLoaderData();
-  const { search, company, category, shipping, order, price } = params;
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+const Filters = ({ categoriesList }) => {
+  const searchParams = useSearchParams();
+  const params = Object.fromEntries(searchParams);
+  console.log(params);
+  const { search,  category, shipping, order, price } = params;
 
   return (
-    <Form className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4  gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center">
+    <form className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4  gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center">
       {/* SEARCH */}
       <FormInput
         type="search"
@@ -21,18 +25,11 @@ const Filters = () => {
       <FormSelect
         label="select category"
         name="category"
-        list={meta.categories}
+        list={categoriesList}
         size="select-sm"
         defaultValue={category}
       />
-      {/* COMPANIES */}
-      <FormSelect
-        label="select company"
-        name="company"
-        list={meta.companies}
-        size="select-sm"
-        defaultValue={company}
-      />
+
       {/* ORDER */}
       <FormSelect
         label="sort by"
@@ -59,10 +56,10 @@ const Filters = () => {
       <button type="submit" className="btn btn-primary btn-sm">
         search
       </button>
-      <Link to="/products" className="btn btn-accent btn-sm">
+      <Link href="/products" className="btn btn-accent btn-sm">
         reset
       </Link>
-    </Form>
+    </form>
   );
 };
 export default Filters;

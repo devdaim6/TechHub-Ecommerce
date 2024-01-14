@@ -151,7 +151,13 @@ const Nav = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/setting">Settings</Link>
+                    <Link href="/orders">My Orders</Link>
+                  </li>
+                  <li>
+                    <Link href="/wishlist">My Wishlist</Link>
+                  </li>
+                  <li>
+                    <Link href="/adresses">Saved Addresses</Link>
                   </li>
                   <li>
                     <button

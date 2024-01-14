@@ -1,24 +1,39 @@
-"use client"
+"use client";
+import { useEmailVerification } from "@/hooks/useEmailVerification";
+import { useSession } from "next-auth/react";
 import React from "react";
+import { toast } from "sonner";
+import axios from "axios";
 
-const EmailVerification = ({ email }) => {
+const EmailVerification = () => {
+  const { data: session } = useSession();
+
+  const email = session?.session?.user?.email;
+  const { data } = useEmailVerification(email);
+
+  if (data) console.log(data);
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     const otp = form.get("otp");
-    const response = await axios.post("/api/email-verification/verify-otp", {
-      email,
-      otp,
-    });
+    try {
+      const response = await axios.post("/api/email-verification/verify-otp", {
+        email,
+        otp,
+      });
 
-    toast.success(response.data.message);
-    if (response.data.success) {
-      setTimeout(() => {
-        router.back();
-      }, 1500);
-      setTimeout(() => {
-        setVerifyWithOtp(false);
-      }, 1400);
+      toast.success(response.data.message);
+
+      if (response.data.success) {
+        setTimeout(() => {
+          router.back();
+        }, 1500);
+        setTimeout(() => {
+          setVerifyWithOtp(false);
+        }, 1400);
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
     }
   };
   return (
