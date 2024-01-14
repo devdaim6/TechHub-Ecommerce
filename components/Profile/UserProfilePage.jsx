@@ -10,7 +10,7 @@ const UserProfilePage = () => {
 
   const { data, isLoading } = useUser(session?.session?.user?.id);
 
-  if (isLoading || status == "loading" || !isFetched) {
+  if (isLoading || status == "loading") {
     return (
       <>
         <ScreenLoading />
