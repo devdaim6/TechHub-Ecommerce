@@ -9,12 +9,12 @@ export async function GET(req, { params }) {
     const { searchParams } = new URL(req.url);
     const field = searchParams.get("field");
 
-    if (field) {
-      const cachedField = await redis.get(`user-${field}-${userId}`);
-      if (cachedField) {
-        const parsedField = JSON.parse(cachedField);
-        return NextResponse.json(parsedField);
-      }
+    const cachedField = await redis.get(
+      `user-${field ? field : "profile"}-${userId}`
+    );
+    if (cachedField) {
+      const parsedField = JSON.parse(cachedField);
+      return NextResponse.json(parsedField);
     }
 
     await connectMongoDB();
@@ -29,10 +29,11 @@ export async function GET(req, { params }) {
 
     const { orders, wishlist, savedAddresses, cart, reviews, ...restUser } =
       user.toObject();
+
     if (field) {
       const selectedField = user[field];
       await redis.setex(
-        `user-${field}-${userId}`,
+        `user-${field ? field : "profile"}-${userId}`,
         30,
         JSON.stringify(selectedField)
       );

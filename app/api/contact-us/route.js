@@ -9,7 +9,6 @@ export async function POST(req) {
 
     const existingQuery = await Contact.findOne({ email });
     if (existingQuery) {
-      // If the contact exists, add the new query to the queries array
       existingQuery.queries.push({
         name,
         message,
