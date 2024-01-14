@@ -7,7 +7,8 @@ import Link from "next/link";
 
 const UserProfilePage = () => {
   const { data: session, status } = useSession();
-  const { data, isLoading, isFetched } = useUser(session?.session?.user?.id);
+
+  const { data, isLoading } = useUser(session?.session?.user?.id);
 
   if (isLoading || status == "loading" || !isFetched) {
     return (
@@ -19,7 +20,7 @@ const UserProfilePage = () => {
 
   return (
     <>
-      {isFetched && data && (
+      {!isLoading && data && (
         <div className="my-5 min-h-screen bg-background">
           <div className=" flex-col   ">
             <div className="text-center text-left">
