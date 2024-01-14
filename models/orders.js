@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema(
   {
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
+    orderCode: { type: String, required: true, unique: true },
     orderItems: [
       {
         productId: {
@@ -32,16 +33,27 @@ const OrderSchema = new mongoose.Schema(
       enum: ["pending", "paid", "unpaid"],
       default: "pending",
     },
-    status: {
+    orderStatus: {
       type: String,
       enum: ["pending", "processing", "shipped", "delivered"],
       default: "pending",
     },
     shippingAddress: {
       landmark: String,
-      street: String,
       city: String,
       state: String,
+      name: String,
+      phone: {
+        type: String,
+        required: [true, "Mobile Number is required"],
+        validate: {
+          validator: function (value) {
+            return /^[6-9]\d{9}$/.test(value);
+          },
+          message: (props) =>
+            `${props.value} is not a valid Indian phone number!`,
+        },
+      },
       zipCode: {
         type: Number,
         validate: {

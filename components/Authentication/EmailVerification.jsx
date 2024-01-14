@@ -28,9 +28,6 @@ const EmailVerification = () => {
         setTimeout(() => {
           router.back();
         }, 1500);
-        setTimeout(() => {
-          setVerifyWithOtp(false);
-        }, 1400);
       }
     } catch (error) {
       console.error("Error verifying OTP:", error);
