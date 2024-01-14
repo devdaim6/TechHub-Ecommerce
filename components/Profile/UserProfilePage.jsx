@@ -7,6 +7,8 @@ import Link from "next/link";
 
 const UserProfilePage = () => {
   const { data: session, status } = useSession();
+  if (status === "loading") return <>Loading...</>;
+
   const { data, isLoading, isFetched } = useUser(session?.session?.user?.id);
 
   if (isLoading || status == "loading" || !isFetched) {
