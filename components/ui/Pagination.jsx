@@ -2,7 +2,7 @@ import {
   setProducts,
   setProductsLoading,
 } from "@/features/products/productSlice";
-import { useFilteredProducts } from "@/utils/filterFunction";
+import { getFilteredProducts } from "@/utils/filterFunction";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -15,7 +15,7 @@ const Pagination = ({ currentPage, totalPages, filters }) => {
       dispatch(setProductsLoading({ loading: true }));
       const newPage = currentPage - 1;
       try {
-        const response = await useFilteredProducts(filters, newPage);
+        const response = await getFilteredProducts(filters, newPage);
         dispatch(setProducts(response?.data));
       } catch (error) {
         console.log(error);
@@ -30,7 +30,7 @@ const Pagination = ({ currentPage, totalPages, filters }) => {
     if (currentPage < totalPages) {
       const newPage = currentPage + 1;
       try {
-        const response = await useFilteredProducts(filters, newPage);
+        const response = await getFilteredProducts(filters, newPage);
         dispatch(setProducts(response?.data));
       } catch (error) {
         console.log(error);

@@ -2,7 +2,7 @@
 
 import FormInput from "@/components/Form/FormInput";
 import { setSearchProduct } from "@/features/filters/filterSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import FilterForm from "./FilterForm";
 import FilterModal from "./FilterModal";
 import { useWindowWidth } from "@react-hook/window-size";
@@ -11,7 +11,7 @@ import {
   setProducts,
   setProductsLoading,
 } from "@/features/products/productSlice";
-import { useFilteredProducts } from "@/utils/filterFunction";
+import { getFilteredProducts } from "@/utils/filterFunction";
 const Filters = ({ currentPage, filters }) => {
   const dispatch = useDispatch();
   const widthOfWindow = useWindowWidth();
@@ -24,7 +24,7 @@ const Filters = ({ currentPage, filters }) => {
     (async () => {
       try {
         dispatch(setProductsLoading({ loading: true }));
-        const response = await useFilteredProducts(filters, currentPage);
+        const response = await getFilteredProducts(filters, currentPage);
         dispatch(setProducts(response?.data));
       } catch (error) {
         console.log(error);
@@ -37,7 +37,7 @@ const Filters = ({ currentPage, filters }) => {
   const handleSearch = async (e) => {
     try {
       dispatch(setProductsLoading({ loading: true }));
-      const response = await useFilteredProducts(filters, currentPage);
+      const response = await getFilteredProducts(filters, currentPage);
       dispatch(setProducts(response?.data));
     } catch (error) {
       console.log(error);

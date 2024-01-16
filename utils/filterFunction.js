@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-export const useFilteredProducts = async (filters, currentPage) => {
+export const getFilteredProducts = async (filters, currentPage) => {
   if (document.getElementById("my_modal_7").checked) {
     document.getElementById("my_modal_7").checked = false;
   }
