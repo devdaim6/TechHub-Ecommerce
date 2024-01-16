@@ -1,15 +1,5 @@
 import mongoose from "mongoose";
-const ReviewSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  rating: { type: Number, required: true },
-  name: { type: String },
-  comment: { type: String, default: "" },
-  title: { type: String, default: "" },
-  isReview: { type: Boolean, default: false },
-  reviewCode: { type: String, required: true, unique: true },
-  image: { type: String, default: "" },
-  date: { type: Date, default: Date.now },
-});
+
 const ProductSchema = new mongoose.Schema(
   {
     productCode: { type: String, unique: true, required: true },
@@ -28,7 +18,6 @@ const ProductSchema = new mongoose.Schema(
       width: { type: Number },
       height: { type: Number },
     },
-    dateAdded: { type: Date, default: Date.now },
     imageUrl: { type: String },
     inStock: { type: Boolean, default: true },
     averageRating: { type: Number, default: 0 },
@@ -36,10 +25,32 @@ const ProductSchema = new mongoose.Schema(
     starRatings: [
       { star: { type: Number }, ratings: { type: Number, default: 0 } },
     ],
-    reviews: [ReviewSchema],
+    reviews: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        rating: { type: Number, required: true },
+        name: { type: String },
+        comment: { type: String, default: "" },
+        title: { type: String, default: "" },
+        isReview: { type: Boolean, default: false },
+        reviewCode: {
+          type: String,
+          default: () => randomstring.generate(),
+          unique: true,
+          required: true,
+        },
+        image: { type: String, default: "" },
+        date: { type: Date, default: Date.now },
+      },
+    ],
     reviewsCount: { type: Number, default: 0 },
     tags: { type: [String] },
     featured: { type: Boolean, default: false },
+    newest: { type: Boolean, default: true },
     discount: { type: Number, default: 0 },
 
     variants: [
@@ -53,7 +64,6 @@ const ProductSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
 const Product =
   mongoose.models.Product || mongoose.model("Product", ProductSchema);
 

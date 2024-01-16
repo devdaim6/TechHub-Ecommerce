@@ -7,17 +7,48 @@ export default withAuth(
     const pathname = req.nextUrl.pathname;
 
     // Manage route protection
+    const adminRoutes = ["/admin"];
+    const sensitiveRoutes = ["/profile", "/orders", "/addresses"];
+
+    
+    /* The line `const isAuth = await getToken({ req });` is calling the `getToken` function from the
+ `next-auth/jwt` module and passing the `req` object as an argument. */
     const isAuth = await getToken({ req });
+
+
+    /* These lines of code are checking if the current `pathname` starts with "/auth/login" or
+   "/auth/register". */
     const isLoginPage = pathname.startsWith("/auth/login");
+    const isCheckoutPage = pathname.startsWith("/checkout");
+    const isVerificationPage = [
+      "/profile/email-verification",
+      "/api/email-verification",
+    ];
+
     const isRegisterPage = pathname.startsWith("/auth/register");
-    const isVerificationPage = pathname.startsWith(
-      "/profile/email-verification"
-    );
-    const sensitiveRoutes = ["/profile"];
+
+    /* These lines of code are checking if the current `pathname` starts with any of the routes defined
+   in the `sensitiveRoutes` and `adminRoutes` arrays. */
     const isAccessingSensitiveRoute = sensitiveRoutes.some((route) =>
       pathname.startsWith(route)
     );
+    const verifiedUserAccessingVerificationPage = isVerificationPage.some(
+      (route) => pathname.startsWith(route)
+    );
+    const isAccessingAdminRoutes = adminRoutes.some((route) =>
+      pathname.startsWith(route)
+    );
 
+    /* This code block is handling the logic for the verification page. */
+
+    if (verifiedUserAccessingVerificationPage) {
+      if (isAuth?.isVerified) {
+        return NextResponse.redirect(new URL("/profile", req.url));
+      }
+      return NextResponse.next();
+    }
+
+    /* This code block is handling the logic for the login page. */
     if (isLoginPage) {
       if (isAuth) {
         return NextResponse.redirect(new URL("/", req.url));
@@ -25,6 +56,31 @@ export default withAuth(
 
       return NextResponse.next();
     }
+
+  /* The code block `if (isCheckoutPage) { ... }` is checking if the current `pathname` matches the
+  "/checkout" route. If it does, it further checks if the user is not authenticated (`!isAuth`). */
+    if (isCheckoutPage) {
+      if (!isAuth) {
+        return NextResponse.redirect(new URL("/auth/login", req.url));
+      }
+
+      return NextResponse.next();
+    }
+
+    /* The code block `if (isAuth) { ... }` is checking if the user is authenticated. If the user is
+    authenticated, it then checks if they are accessing any of the admin routes
+    (`isAccessingAdminRoutes`). If they are accessing an admin route, it further checks if the
+    user's role (`req.nextauth.token?.role`) is "customer". */
+    if (isAuth) {
+      if (isAccessingAdminRoutes) {
+        if (req.nextauth.token?.role == "customer")
+          return NextResponse.redirect(new URL("/", req.url));
+      }
+
+      return NextResponse.next();
+    }
+
+    /* The code block `if (isRegisterPage) { ... }` is handling the logic for the register page. */
     if (isRegisterPage) {
       if (isAuth) {
         return NextResponse.redirect(new URL("/", req.url));
@@ -32,14 +88,18 @@ export default withAuth(
 
       return NextResponse.next();
     }
-    // if (isVerificationPage && isAuth) {
-    //   return NextResponse.redirect(new URL("/profile", req.url));
-    // }
+
+    /* The code block `if (!isAuth && isAccessingSensitiveRoute)` is checking if the user is not
+   authenticated (`!isAuth`) and is trying to access a sensitive route
+   (`isAccessingSensitiveRoute`). */
     if (!isAuth && isAccessingSensitiveRoute) {
       return NextResponse.redirect(new URL("/auth/login ", req.url));
     }
   },
   {
+    /* The `callbacks` object is a property of the `withAuth` middleware function. It allows you to
+   define callback functions that will be executed during the authentication process. In this case,
+   the `authorized` callback function is defined. */
     callbacks: {
       async authorized() {
         return true;
@@ -48,6 +108,17 @@ export default withAuth(
   }
 );
 
+/* The `export const config` block is defining the configuration options for the middleware. In this
+case, it is specifying the routes that should be matched by the middleware. */
 export const config = {
-  matchter: ["/", "/auth/login", "/auth/register", "/profile/:path*"],
+  matchter: [
+    "/",
+    "/orders",
+    "/wislist",
+    "/addresses",
+    "/checkout",
+    "/auth/:path*",
+    "/profile/:path*",
+    "/admin/:path*",
+  ],
 };

@@ -15,6 +15,7 @@ const getCartFromLocalStorage = () => {
   // if (cartData) {
   //   return JSON.parse(cartData);
   // }
+  // localStorage.setItem("cart", JSON.stringify(defaultState));
   return defaultState;
 };
 
@@ -37,7 +38,7 @@ const cartSlice = createSlice({
       toast.success("Item added to cart");
     },
     clearCart: (state) => {
-      localStorage.setItem("cart", JSON.stringify(defaultState));
+      // localStorage.setItem("cart", JSON.stringify(defaultState));
       return defaultState;
     },
     removeItem: (state, action) => {
@@ -62,7 +63,7 @@ const cartSlice = createSlice({
       state.tax = 0.1 * state.cartTotal;
       state.orderTotal =
         state.cartTotal + (state.shipping > 500 ? 0 : 80) + state.tax;
-      localStorage.setItem("cart", JSON.stringify(state));
+      // localStorage.setItem("cart", JSON.stringify(state));
     },
   },
 });

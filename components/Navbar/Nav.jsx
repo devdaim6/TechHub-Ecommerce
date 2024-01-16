@@ -1,13 +1,19 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import ThemeSelectorButton from "./ThemeSelectorButton";
 import ThemeSelector from "./ThemeSelector";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import { signOut, useSession } from "next-auth/react";
-
+import { useDispatch, useSelector } from "react-redux";
+import { signOut } from "next-auth/react";
+import UserAvatarSkeleton from "../ui/UserAvatarSkeleton";
+import { logoutUser } from "@/features/user/userSlice";
 const Nav = () => {
-  const { data: session, status } = useSession();
+  const dispatch = useDispatch();
+  const handleSignOut = async () => {
+    dispatch(logoutUser());
+    await signOut();
+  };
+  const user = useSelector((state) => state.userState?.user);
 
   const numItemsInCart = useSelector((state) => state.cartState.numItemsInCart);
   const cartTotal = useSelector((state) => state.cartState.cartTotal);
@@ -78,14 +84,14 @@ const Nav = () => {
       </div>
 
       <div className="navbar-end">
-        <div className="mt-1 flex">
+        <div className=" flex">
           <div className="lg:flex hidden">
             <ThemeSelector />
           </div>
           <ThemeSelectorButton />
         </div>
-        <div className="flex-none pb-1">
-          <div className="dropdown dropdown-end">
+        <div className="flex ">
+          <div className="dropdown dropdown-end ">
             <div
               tabIndex={0}
               role="button"
@@ -128,7 +134,9 @@ const Nav = () => {
               </div>
             </div>
           </div>
-          {status === "authenticated" && (
+
+          {user?.status === "loading" && <UserAvatarSkeleton />}
+          {user?.status === "authenticated" && user && (
             <>
               <div className="dropdown dropdown-end">
                 <div
@@ -137,7 +145,7 @@ const Nav = () => {
                   className="btn btn-ghost btn-circle avatar"
                 >
                   <div className="w-10 rounded-full border border-accent">
-                    <img alt="dp" src={session?.session?.user?.image} />
+                    <img alt="dp" src={user?.image} />
                   </div>
                 </div>
                 <ul
@@ -163,7 +171,7 @@ const Nav = () => {
                     <button
                       type="button"
                       className="text-error"
-                      onClick={async () => await signOut({ callbackUrl: "/" })}
+                      onClick={async () => handleSignOut()}
                     >
                       Logout
                     </button>

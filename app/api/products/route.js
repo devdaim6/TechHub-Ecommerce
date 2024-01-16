@@ -3,40 +3,28 @@ import Product from "@/models/product";
 import { getSortOrder } from "@/utils/getSortOrder";
 import { NextResponse } from "next/server";
 import randomstring from "randomstring";
+import { cronScheduler } from "@/utils/cronScheduler";
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const search = Object.fromEntries(searchParams);
-
-  const page = parseInt(search?.page) || 1;
-  const limit = 4;
-  const category = search?.category;
+  const currentPage = parseInt(search?.page) || 1;
+  const perPage = parseInt(search?.perPage) || 12;
+  // const category = search?.category ? search?.category : "";
   const searchProduct = search?.searchProduct;
-  const tags = searchParams.getAll("tags");
+  // const tags = searchParams.getAll("tags");
   const minPrice = parseFloat(search?.minPrice);
   const maxPrice = parseFloat(search?.maxPrice);
-  const inStock = search?.inStock === "true";
-  const discounted = search?.discounted === "true";
-  const shipping = search?.shipping === "true";
-  const featured = search?.featured === "true";
+
+  // const featured = search?.featured === "true";
   const sortBy = search?.sortBy;
-  const sortOrder = await getSortOrder(search?.sortOrder, sortBy);
-
+  const sortOrder = getSortOrder(search?.sortOrder, sortBy);
   let query = {};
-
   if (searchProduct) {
     query.$or = [
       { name: { $regex: new RegExp(searchProduct, "i") } },
       { category: { $regex: new RegExp(searchProduct, "i") } },
-      { tags: { $in: tags.map((tag) => new RegExp(tag, "i")) } },
+      // { tags: { $in: tags.map((tag) => new RegExp(tag, "i")) } },
     ];
-  }
-
-  if (category) {
-    query.category = category;
-  }
-
-  if (minPrice !== undefined && maxPrice !== undefined) {
-    query.price = { $gte: minPrice, $lte: maxPrice };
   }
 
   if (!isNaN(minPrice) && !isNaN(maxPrice)) {
@@ -47,32 +35,43 @@ export async function GET(req) {
     query.price = { $lte: maxPrice };
   }
 
-  if (inStock) {
-    query.inStock = inStock;
+  if (search?.inStock) {
+    query.inStock = search?.inStock;
   }
 
-  if (featured) {
-    query.featured = featured;
+  if (search?.shipping) {
+    query.shipping = search?.shipping;
   }
 
-  if (shipping) {
-    query.shipping = shipping;
-  }
-
-  if (discounted) {
-    query.discount = { $gt: 0 };
-  }
-
-  const skip = (page - 1) * limit;
+  const skip = (currentPage - 1) * perPage;
 
   await connectMongoDB();
+  const selectedFields = {
+    productCode: 1,
+    name: 1,
+    price: 1,
+    imageUrl: 1,
+    description: 1,
+    inStock: 1,
+    discount: 1,
+    shipping: 1,
+  };
 
-  const products = await Product.find(query)
-    .sort(sortBy ? { [sortBy]: parseInt(sortOrder) } : {})
+  const products = await Product.find(query, selectedFields)
+    .sort(sortBy ? sortOrder : {})
     .skip(skip)
-    .limit(limit);
+    .limit(perPage);
 
-  return NextResponse.json(products);
+  const productsLength = (await Product.find(query)).length;
+  const totalPages = Math.ceil(productsLength / perPage);
+
+  const allProducts = {
+    products,
+    totalPages,
+    currentPage,
+    length: productsLength,
+  };
+  return NextResponse.json(allProducts);
 }
 
 export async function POST(req) {
@@ -96,9 +95,10 @@ export async function POST(req) {
       discount,
       variants,
     } = await req.json();
+
     const productCode = "techhub-" + randomstring.generate();
     await connectMongoDB();
-    // Check if the product with the given code already exists
+
     const existingProduct = await Product.findOne({ productCode });
     if (existingProduct) {
       return NextResponse.json({
@@ -128,6 +128,8 @@ export async function POST(req) {
       discount,
       variants,
     });
+    await cronScheduler();
+
     return NextResponse.json({
       message: "Product Added.",
       success: true,
