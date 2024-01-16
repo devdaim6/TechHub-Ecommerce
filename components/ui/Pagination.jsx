@@ -60,7 +60,7 @@ const Pagination = ({ currentPage, totalPages, filters }) => {
             <button
               onClick={handleNextClick}
               className="btn glass"
-              disabled={currentPage == totalPages ? true : false}
+              disabled={currentPage >= totalPages ? true : false}
             >
               Next
               <ArrowRight size={15} />
