@@ -1,11 +1,7 @@
+"use client";
+
 import axios from "axios";
-
-const productionUrl = "/api";
-
-export const customFetch = axios.create({
-  baseURL: productionUrl,
-});
-
+import { getCookie } from "@/utils/getCookie";
 export const formatPrice = (price) => {
   const InrAmount = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -30,7 +26,6 @@ export const getBase64 = (file) => {
     let baseURL = "";
     let reader = new FileReader();
 
-    // Convert the file to base64 text
     reader.readAsDataURL(file);
 
     reader.onload = () => {
@@ -38,4 +33,21 @@ export const getBase64 = (file) => {
       resolve(baseURL);
     };
   });
+};
+
+export const setUserToLocalStorage = (user) => {
+  localStorage.setItem("user", JSON.stringify(user));
+};
+export const removeUserFromLocalStorage = () => {
+  localStorage.removeItem("user");
+};
+export const getUserFromLocalStorage = () => {
+  const user = localStorage.getItem("user");
+  if (!user) return null;
+  return JSON.parse(user);
+};
+
+export const getToken = async () => {
+  const token = await getCookie("next-auth.session-token");
+  return token;
 };

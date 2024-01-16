@@ -4,7 +4,6 @@ import React from "react";
 import ScreenLoading from "../ui/ScreenLoading";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-
 const UserProfilePage = () => {
   const { data: session, status } = useSession();
 
@@ -17,7 +16,7 @@ const UserProfilePage = () => {
       </>
     );
   }
-
+ 
   return (
     <>
       {!isLoading && data && (

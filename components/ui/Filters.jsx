@@ -1,65 +1,89 @@
 "use client";
+
 import FormInput from "@/components/Form/FormInput";
-import FormSelect from "@/components/Form/FormSelect";
-import FormRange from "@/components/Form/FormRange";
-import FormCheckbox from "@/components/Form/FormCheckbox";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
-const Filters = ({ categoriesList }) => {
-  const searchParams = useSearchParams();
-  const params = Object.fromEntries(searchParams);
-  console.log(params);
-  const { search,  category, shipping, order, price } = params;
+import { setSearchProduct } from "@/features/filters/filterSlice";
+import { useDispatch, useSelector } from "react-redux";
+import FilterForm from "./FilterForm";
+import FilterModal from "./FilterModal";
+import { useWindowWidth } from "@react-hook/window-size";
+import { useEffect } from "react";
+import {
+  setProducts,
+  setProductsLoading,
+} from "@/features/products/productSlice";
+import { useFilteredProducts } from "@/utils/filterFunction";
+const Filters = ({ currentPage, filters }) => {
+  const dispatch = useDispatch();
+  const widthOfWindow = useWindowWidth();
 
+  const handleSearchProductChange = (e) => {
+    dispatch(setSearchProduct(e.target.value));
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        dispatch(setProductsLoading({ loading: true }));
+        const response = await useFilteredProducts(filters, currentPage);
+        dispatch(setProducts(response?.data));
+      } catch (error) {
+        console.log(error);
+      } finally {
+        dispatch(setProductsLoading({ loading: false }));
+      }
+    })();
+  }, []);
+
+  const handleSearch = async (e) => {
+    try {
+      dispatch(setProductsLoading({ loading: true }));
+      const response = await useFilteredProducts(filters, currentPage);
+      dispatch(setProducts(response?.data));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(setProductsLoading({ loading: false }));
+    }
+  };
   return (
-    <form className="bg-base-200 rounded-md px-8 py-4 grid gap-x-4  gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center">
-      {/* SEARCH */}
-      <FormInput
-        type="search"
-        label="search product"
-        name="search"
-        size="input-sm"
-        defaultValue={search}
-      />
-      {/* CATEGORIES */}
-      <FormSelect
-        label="select category"
-        name="category"
-        list={categoriesList}
-        size="select-sm"
-        defaultValue={category}
-      />
-
-      {/* ORDER */}
-      <FormSelect
-        label="sort by"
-        name="order"
-        list={["a-z", "z-a", "high", "low"]}
-        size="select-sm"
-        defaultValue={order}
-      />
-      {/* PRICE */}
-      <FormRange
-        name="price"
-        label="select price"
-        size="range-sm"
-        price={price}
-      />
-      {/* SHIPPING */}
-      <FormCheckbox
-        name="shipping"
-        label="free shipping"
-        size="checkbox-sm"
-        defaultValue={shipping}
-      />
-      {/* BUTTONS */}
-      <button type="submit" className="btn btn-primary btn-sm">
-        search
-      </button>
-      <Link href="/products" className="btn btn-accent btn-sm">
-        reset
-      </Link>
-    </form>
+    <>
+      {" "}
+      <form
+        method="dialog"
+        onSubmit={handleSearch}
+        className=" bg-base-200 rounded-md px-3 py-4 grid gap-x-2  gap-y-8  items-center"
+      >
+        <div className="flex  overflow-x-hidden">
+          <FormInput
+            type="search"
+            label="search product"
+            name="search"
+            value={filters?.searchProduct}
+            size="input-sm"
+            onChange={handleSearchProductChange}
+          />
+          {widthOfWindow < 799 && (
+            <FilterModal
+              filters={filters}
+              dispatch={dispatch}
+              handleSearchProductChange={handleSearchProductChange}
+            />
+          )}
+        </div>
+      </form>
+      {widthOfWindow > 799 && (
+        <form
+          method="dialog"
+          onSubmit={handleSearch}
+          className=" bg-base-200 rounded-md px-3 py-4 grid gap-x-2  gap-y-8  items-center"
+        >
+          <div className="lg:grid hidden">
+            <FilterForm filters={filters} dispatch={dispatch} />
+          </div>
+        </form>
+      )}
+    </>
   );
 };
+
 export default Filters;

@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
-import Link from "next/link";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 import ButtonLoading from "../ui/ButtonLoading";
 const Login = () => {
@@ -20,14 +20,14 @@ const Login = () => {
         password: password,
         redirect: false,
       });
-      console.log("signIn Response:", res); // Log the response
       if (res.error) {
         toast.error("Invalid Credentials");
       } else {
         toast.success("Logged In Successfully !");
-        setTimeout(() => {
+
+        setTimeout(async () => {
           router.push("/");
-        }, 1500);
+        },1000);
       }
     } catch (error) {
       console.error("Login Error:", error);

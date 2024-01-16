@@ -4,6 +4,7 @@ import { Provider as ReduxProvider } from "react-redux";
 import { store } from "@/utils/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { NextUIProvider } from "@nextui-org/react";
 export const StoreProvider = ({ children }) => {
   return <ReduxProvider store={store}>{children}</ReduxProvider>;
 };
@@ -15,6 +16,7 @@ const queryClient = new QueryClient({
     queries: {
       staleTime: 1000 * 60 * 5,
     },
+    enabled: false,
   },
 });
 export const QueryProvider = ({ children }) => {
@@ -25,4 +27,7 @@ export const QueryProvider = ({ children }) => {
       {children}
     </QueryClientProvider>
   );
+};
+export const NextProvider = ({ children }) => {
+  return <NextUIProvider>{children}</NextUIProvider>;
 };

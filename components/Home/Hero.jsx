@@ -1,7 +1,37 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import Carousel from "./Carousel";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { getToken } from "@/utils/util";
+import { loginUser } from "@/features/user/userSlice";
+import { useDispatch } from "react-redux";
 const Hero = () => {
+  const dispatch = useDispatch();
+  const { data: session, status } = useSession();
+
+  const fetchData = async () => {
+    try {
+      const token = await getToken();
+      dispatch(
+        loginUser({
+          user: session?.session?.user,
+          token: token?.value,
+          status: status,
+        })
+      );
+    } catch (error) {
+      console.error("Error fetching token:", error);
+    }
+  };
+
+  useEffect(() => {
+   
+    if (status === "authenticated") {
+      fetchData();
+    }
+  }, [status]);
+
   return (
     <div className="hero min-h-full bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
