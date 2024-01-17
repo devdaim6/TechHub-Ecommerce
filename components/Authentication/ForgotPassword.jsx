@@ -168,7 +168,7 @@ const ForgotPassword = () => {
               <div className="flex justify-between">
                 <label className="label">
                   <Link
-                    href="/auth/forgot-username"
+                    href="/forgot-username"
                     className="label-text-alt link link-hover  "
                   >
                     Forgot Username?
@@ -176,7 +176,7 @@ const ForgotPassword = () => {
                 </label>
                 <label className="label">
                   <Link
-                    href="/auth/forgot-email"
+                    href="/forgot-email"
                     className="label-text-alt link link-hover  "
                   >
                     Forgot Email?

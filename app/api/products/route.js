@@ -1,21 +1,19 @@
 import { connectMongoDB } from "@/lib/db";
 import Product from "@/models/product";
 import { getSortOrder } from "@/utils/getSortOrder";
+import { redis } from "@/utils/redis";
 import { NextResponse } from "next/server";
 import randomstring from "randomstring";
-import { cronScheduler } from "@/utils/cronScheduler";
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const search = Object.fromEntries(searchParams);
   const currentPage = parseInt(search?.page) || 1;
   const perPage = parseInt(search?.perPage) || 12;
-  // const category = search?.category ? search?.category : "";
-  const searchProduct = search?.searchProduct;
-  // const tags = searchParams.getAll("tags");
+  const searchProduct = search?.searchProduct || "";
   const minPrice = parseFloat(search?.minPrice);
   const maxPrice = parseFloat(search?.maxPrice);
-
-  // const featured = search?.featured === "true";
+  const category = search?.category;
+  const categoriesArray = category ? category.split(",") : [];
   const sortBy = search?.sortBy;
   const sortOrder = getSortOrder(search?.sortOrder, sortBy);
   let query = {};
@@ -23,7 +21,6 @@ export async function GET(req) {
     query.$or = [
       { name: { $regex: new RegExp(searchProduct, "i") } },
       { category: { $regex: new RegExp(searchProduct, "i") } },
-      // { tags: { $in: tags.map((tag) => new RegExp(tag, "i")) } },
     ];
   }
 
@@ -41,6 +38,10 @@ export async function GET(req) {
 
   if (search?.shipping) {
     query.shipping = search?.shipping;
+  }
+
+  if (categoriesArray.length > 0) {
+    query.category = { $in: categoriesArray };
   }
 
   const skip = (currentPage - 1) * perPage;
@@ -128,7 +129,6 @@ export async function POST(req) {
       discount,
       variants,
     });
-    await cronScheduler();
 
     return NextResponse.json({
       message: "Product Added.",

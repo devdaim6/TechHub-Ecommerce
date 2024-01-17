@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 const ThemeSelectorButton = () => {
-  let theme = "dark";
+  let theme = "";
   useEffect(() => {
     const checkDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
     if (checkDarkTheme.matches) {
