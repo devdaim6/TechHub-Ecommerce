@@ -5,7 +5,7 @@ const ThemeSelectorButton = () => {
   useEffect(() => {
     const checkDarkTheme = window.matchMedia("(prefers-color-scheme: dark)");
     if (checkDarkTheme.matches) {
-      theme = "winter";
+      theme = "light";
     }
   }, []);
 
@@ -15,7 +15,7 @@ const ThemeSelectorButton = () => {
         <input
           type="checkbox"
           className="theme-controller"
-          value={theme == "winter" ? "dark" : "winter"}
+          value={theme == "light" ? "dark" : "light"}
         />
 
         {/* sun icon */}
