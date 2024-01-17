@@ -5,6 +5,8 @@ const initialState = {
   priceRange: [0, 4000],
   freeShipping: true,
   inStock: true,
+  category: "all",
+  perPage: 5,
 };
 const filterSlice = createSlice({
   name: "filter",
@@ -25,6 +27,12 @@ const filterSlice = createSlice({
     setInStock: (state, action) => {
       state.inStock = action.payload;
     },
+    setCategory: (state, action) => {
+      state.category = action.payload;
+    },
+    setPerPage: (state, action) => {
+      state.perPage = action.payload;
+    },
 
     resetFilters: (state) => {
       return initialState;
@@ -38,7 +46,9 @@ export const {
   setPriceRange,
   setFreeShipping,
   resetFilters,
+  setCategory,
   setInStock,
+  setPerPage,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

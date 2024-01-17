@@ -8,12 +8,16 @@ import ProductGrid from "./ProductGrid";
 
 const ProductsPage = () => {
   const filters = useSelector((state) => state.filter);
-  const { products, loading, totalPages, currentPage } = useSelector(
+  const { length, products, loading, totalPages, currentPage } = useSelector(
     (state) => state.products
   );
   return (
     <>
-      <Filters currentPage={currentPage} filters={filters} />
+      <Filters
+        currentPage={currentPage}
+        filters={filters}
+        totalProducts={length}
+      />
       {loading ? <ScreenLoading /> : <ProductGrid products={products} />}
       <Pagination
         totalPages={totalPages}

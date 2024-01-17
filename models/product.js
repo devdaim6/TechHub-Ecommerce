@@ -6,12 +6,11 @@ const ProductSchema = new mongoose.Schema(
     name: { type: String },
     description: { type: String },
     price: { type: Number },
-    category: { type: String },
+    category: { type: [String] },
     sizes: { type: Array },
     colors: { type: Array },
     shipping: { type: Boolean, default: false },
     onSale: { type: Boolean, default: true },
-    priceDrop: { type: Number },
     weight: { type: Number },
     dimensions: {
       length: { type: Number },
@@ -48,9 +47,8 @@ const ProductSchema = new mongoose.Schema(
       },
     ],
     reviewsCount: { type: Number, default: 0 },
-    tags: { type: [String] },
+
     featured: { type: Boolean, default: false },
-    newest: { type: Boolean, default: true },
     discount: { type: Number, default: 0 },
 
     variants: [
