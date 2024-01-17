@@ -1,5 +1,7 @@
 import Nav from "@/components/Navbar/Nav";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import TopContent from "@/components/Header/TopContent";
 import Footer from "@/components/Footer/Footer";
 import {
@@ -69,6 +71,8 @@ export default function RootLayout({ children }) {
                 <Toaster closeButton position="top-center" />
                 <Nav />
                 {children}
+                <SpeedInsights /> 
+                <Analytics />
                 <Footer />
               </StoreProvider>
             </AuthProvider>
