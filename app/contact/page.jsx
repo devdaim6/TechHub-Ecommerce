@@ -97,7 +97,7 @@ const ContactUSPage = () => {
               </label>
               <div className="form-control mt-6">
                 <button type="submit" className="btn btn-accent">
-                  Register
+                  Contact
                 </button>
               </div>
             </form>
