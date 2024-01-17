@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Tech Hub | Products",
+  title: "Products",
   description:
     "Explore a wide range of quality products for sale on Tech Hub. Find the latest tech gadgets, accessories, and more. Shop with confidence for innovative and reliable products.",
   keywords:

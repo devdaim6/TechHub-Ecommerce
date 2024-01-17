@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Tech Hub | Login",
+  title: "Login",
   description:
     "Log in to your Tech Hub account. Gain access to personalized features, manage your orders, and explore exclusive offers.",
   keywords: "login, user authentication, account access, Tech Hub",

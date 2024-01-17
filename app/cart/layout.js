@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Tech Hub |  Cart",
+  title: "Cart",
   description:
     "Browse and manage your shopping cart on Tech Hub. Review and update your selected items before making a purchase.",
   keywords: "shopping cart, online shopping, Tech Hub, ecommerce, products",

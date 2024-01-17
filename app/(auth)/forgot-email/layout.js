@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Tech Hub | Forgot Email",
+  title: "Forgot Email",
   description:
     "Recover your email on Tech Hub. Enter your username, and we'll send the associated email address to help you regain access to your account.",
   keywords: "forgot email, email recovery, username, account access, Tech Hub",

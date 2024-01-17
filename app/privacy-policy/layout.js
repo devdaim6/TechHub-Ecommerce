@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Tech Hub | Privacy Policy",
+  title: "Privacy Policy",
   description:
     "Learn about how Tech Hub collects, uses, maintains, and discloses information from users in our Privacy Policy.",
   keywords: "privacy policy, data protection, user information, Tech Hub",

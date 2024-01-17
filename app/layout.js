@@ -10,7 +10,10 @@ import {
 } from "@/app/Provider";
 import { Toaster } from "sonner";
 export const metadata = {
-  title: "Tech Hub | you Dream we Desgin",
+  title: {
+    template: "Tech Hub | %s",
+    default: "Tech Hub | You Dream We Desgin",
+  },
   description: "An Ecommerce Store",
 };
 

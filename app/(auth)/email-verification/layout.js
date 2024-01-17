@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Tech Hub | Email Verification",
+  title: "Email Verification",
   description:
     "Verify your email address on Tech Hub. Complete the verification process to ensure the security of your account and gain access to all features.",
   keywords: "email verification, account security, Tech Hub",

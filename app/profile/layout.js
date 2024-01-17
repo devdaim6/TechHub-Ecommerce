@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Tech Hub | Profile",
+  title: "Profile",
   description: "View and manage your personal information on Tech Hub.",
   keywords: "user profile, account settings, personal information, Tech Hub",
   author: "Tech Hub",

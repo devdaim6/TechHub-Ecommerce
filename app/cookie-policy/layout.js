@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Tech Hub | Cookie Policy",
+  title: "Cookie Policy",
   description:
     "Learn about how Tech Hub uses cookies on our website and how it impacts your browsing experience.",
   keywords: "cookie policy, cookies, web browser, user preferences, Tech Hub",
