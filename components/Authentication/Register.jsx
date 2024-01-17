@@ -41,7 +41,7 @@ const Register = () => {
           description: response.data.description,
         });
         setTimeout(() => {
-          router.push("/auth/login");
+          router.push("/login");
         }, 1000);
       }
     } catch (error) {

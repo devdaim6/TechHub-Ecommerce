@@ -10,22 +10,19 @@ export default withAuth(
     const adminRoutes = ["/admin"];
     const sensitiveRoutes = ["/profile", "/orders", "/addresses"];
 
-    
     /* The line `const isAuth = await getToken({ req });` is calling the `getToken` function from the
  `next-auth/jwt` module and passing the `req` object as an argument. */
     const isAuth = await getToken({ req });
 
-
-    /* These lines of code are checking if the current `pathname` starts with "/auth/login" or
+    /* These lines of code are checking if the current `pathname` starts with "/login" or
    "/auth/register". */
-    const isLoginPage = pathname.startsWith("/auth/login");
+    const isLoginPage = pathname.startsWith("/login");
+    const isRegisterPage = pathname.startsWith("/register");
     const isCheckoutPage = pathname.startsWith("/checkout");
     const isVerificationPage = [
       "/profile/email-verification",
       "/api/email-verification",
     ];
-
-    const isRegisterPage = pathname.startsWith("/auth/register");
 
     /* These lines of code are checking if the current `pathname` starts with any of the routes defined
    in the `sensitiveRoutes` and `adminRoutes` arrays. */
@@ -57,11 +54,11 @@ export default withAuth(
       return NextResponse.next();
     }
 
-  /* The code block `if (isCheckoutPage) { ... }` is checking if the current `pathname` matches the
+    /* The code block `if (isCheckoutPage) { ... }` is checking if the current `pathname` matches the
   "/checkout" route. If it does, it further checks if the user is not authenticated (`!isAuth`). */
     if (isCheckoutPage) {
       if (!isAuth) {
-        return NextResponse.redirect(new URL("/auth/login", req.url));
+        return NextResponse.redirect(new URL("/login", req.url));
       }
 
       return NextResponse.next();
@@ -92,9 +89,13 @@ export default withAuth(
     /* The code block `if (!isAuth && isAccessingSensitiveRoute)` is checking if the user is not
    authenticated (`!isAuth`) and is trying to access a sensitive route
    (`isAccessingSensitiveRoute`). */
-    if (!isAuth && isAccessingSensitiveRoute) {
-      return NextResponse.redirect(new URL("/auth/login ", req.url));
+    if (!isAuth) {
+      if (isAccessingSensitiveRoute) {
+        return NextResponse.redirect(new URL("/login", req.url));
+      }
+      return NextResponse.next();
     }
+    
   },
   {
     /* The `callbacks` object is a property of the `withAuth` middleware function. It allows you to
@@ -117,7 +118,8 @@ export const config = {
     "/wislist",
     "/addresses",
     "/checkout",
-    "/auth/:path*",
+    "/register",
+    "/login",
     "/profile/:path*",
     "/admin/:path*",
   ],

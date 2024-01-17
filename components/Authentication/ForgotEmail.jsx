@@ -16,7 +16,7 @@ const ForgotEmail = () => {
     if (response?.data?.success) {
       toast.success(response.data.message);
       setTimeout(() => {
-        router.push("/auth/login");
+        router.push("/login");
       }, 1200);
     }
   };
@@ -50,7 +50,7 @@ const ForgotEmail = () => {
               <div className="flex justify-between">
                 <label className="label">
                   <Link
-                    href="/auth/forgot-password"
+                    href="/forgot-password"
                     className="label-text-alt link link-hover  "
                   >
                     Forgot Password?
@@ -58,7 +58,7 @@ const ForgotEmail = () => {
                 </label>
                 <label className="label">
                   <Link
-                    href="/auth/forgot-username"
+                    href="/forgot-username"
                     className="label-text-alt link link-hover  "
                   >
                     Forgot Username?
