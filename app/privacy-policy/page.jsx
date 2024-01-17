@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const PrivacyPolicy = () => {
   return (
@@ -6,9 +7,9 @@ const PrivacyPolicy = () => {
       <h1 className="text-4xl font-bold mb-6">Privacy Policy</h1>
 
       <p className="mb-4">
-        This Privacy Policy outlines how TechHub (&rdquo;we,&rdquo; &rdquo;our,&rdquo;
-        or &rdquo;us&rdquo;) collects, uses, maintains, and discloses
-        information collected from users of the TechHub website
+        This Privacy Policy outlines how TechHub (&rdquo;we,&rdquo;
+        &rdquo;our,&rdquo; or &rdquo;us&rdquo;) collects, uses, maintains, and
+        discloses information collected from users of the TechHub website
         (&rdquo;Service&rdquo;).
       </p>
 
@@ -52,7 +53,11 @@ const PrivacyPolicy = () => {
 
       <h2 className="text-2xl font-bold mb-3">Contact Us</h2>
       <p>
-        If you have any questions about this Privacy Policy, please contact us.
+        If you have any questions about this Privacy Policy, please{" "}
+        <Link className="text-primary hover:text-primary/70" href="/contact">
+          contact us
+        </Link>
+        .
       </p>
     </div>
   );

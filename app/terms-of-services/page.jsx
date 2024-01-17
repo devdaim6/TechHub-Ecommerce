@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const TermsOfService = () => {
   return (
@@ -6,10 +7,10 @@ const TermsOfService = () => {
       <h1 className="text-4xl font-bold mb-6">Terms of Service</h1>
 
       <p className="mb-4">
-        By using the TechHub website (&rdquo;Service&rdquo;), you agree to comply with and
-        be bound by the following terms and conditions of use. Please review the
-        terms carefully. If you do not agree to these terms, you should not use
-        this Service.
+        By using the TechHub website (&rdquo;Service&rdquo;), you agree to
+        comply with and be bound by the following terms and conditions of use.
+        Please review the terms carefully. If you do not agree to these terms,
+        you should not use this Service.
       </p>
 
       <h2 className="text-2xl font-bold mb-3">1. Acceptance of Terms</h2>
@@ -44,7 +45,13 @@ const TermsOfService = () => {
       {/* Add more sections as needed based on your specific services and policies */}
 
       <h2 className="text-2xl font-bold mb-3">Contact Us</h2>
-      <p>If you have any questions about these Terms, please contact us.</p>
+      <p>
+        If you have any questions about these Terms, please{" "}
+        <Link className="text-primary hover:text-primary/70" href="/contact">
+          contact us
+        </Link>
+        .
+      </p>
     </div>
   );
 };
