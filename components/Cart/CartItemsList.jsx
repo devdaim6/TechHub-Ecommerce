@@ -5,7 +5,7 @@ const CartItemsList = ({ cart }) => {
   return (
     <>
       {cart?.cartItems.map((item) => {
-        return <CartItem cartItem={item} />;
+        return <CartItem key={item.productId} cartItem={item} />;
       })}
     </>
   );

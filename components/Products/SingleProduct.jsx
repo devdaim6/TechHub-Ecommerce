@@ -229,8 +229,8 @@ const SingleProduct = ({ name, productId, productCode }) => {
               ) ? (
                 <li>
                   Capacity:{" "}
-                  {data?.sizes.map((size) => (
-                    <span>{size}</span>
+                  {data?.sizes.map((size, index) => (
+                    <span key={index}>{size}</span>
                   ))}
                 </li>
               ) : null}
