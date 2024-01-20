@@ -33,25 +33,37 @@ export const getBase64 = (file) => {
     };
   });
 };
-
 export const setUserToLocalStorage = (user) => {
-  localStorage.setItem("user", JSON.stringify(user));
+  if (typeof window !== "undefined") {
+    localStorage.setItem("user", JSON.stringify(user));
+  }
 };
+
 export const setCartToLocalStorage = (cart) => {
-  localStorage.setItem("cart", JSON.stringify(cart));
+  if (typeof window !== "undefined") {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
 };
 
 export const removeUserFromLocalStorage = () => {
-  localStorage.removeItem("user");
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("user");
+  }
 };
+
 export const removeCartFromLocalStorage = (defaultState) => {
-  localStorage.setItem("cart", JSON.stringify(defaultState));
+  if (typeof window !== "undefined") {
+    localStorage.setItem("cart", JSON.stringify(defaultState));
+  }
 };
 
 export const getUserFromLocalStorage = () => {
-  const user = localStorage.getItem("user");
-  if (!user) return null;
-  return JSON.parse(user);
+  if (typeof window !== "undefined") {
+    const user = localStorage.getItem("user");
+    if (!user) return null;
+    return JSON.parse(user);
+  }
+  return null;
 };
 
 export const getToken = async () => {
@@ -60,11 +72,14 @@ export const getToken = async () => {
 };
 
 export const getCartFromLocalStorage = (defaultState) => {
-  const cartData = localStorage.getItem("cart");
-  if (cartData) {
-    return JSON.parse(cartData);
+  if (typeof window !== "undefined") {
+    const cartData = localStorage.getItem("cart");
+    if (cartData) {
+      return JSON.parse(cartData);
+    }
+    localStorage.setItem("cart", JSON.stringify(defaultState));
+    return defaultState;
   }
-  localStorage.setItem("cart", JSON.stringify(defaultState));
   return defaultState;
 };
 
