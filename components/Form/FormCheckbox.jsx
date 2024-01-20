@@ -1,3 +1,4 @@
+"use client"
 const FormCheckbox = ({
   isChecked,
   onChange,

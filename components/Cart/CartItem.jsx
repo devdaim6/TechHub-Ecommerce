@@ -1,3 +1,4 @@
+"use client";
 import { editItem, removeItem } from "@/features/cart/cartSlice";
 import { generateAmountOptions } from "@/utils/util";
 import { Trash2Icon } from "lucide-react";
@@ -44,7 +45,6 @@ const CartItem = ({ cartItem }) => {
             </p>
 
             <div className="form-control max-w-xs">
-            
               <select
                 name="amount"
                 id="amount"

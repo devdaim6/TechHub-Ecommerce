@@ -1,5 +1,4 @@
 "use client";
-
 import FormInput from "@/components/Form/FormInput";
 import { setSearchProduct } from "@/features/filters/filterSlice";
 import { useDispatch } from "react-redux";

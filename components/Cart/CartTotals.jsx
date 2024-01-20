@@ -1,3 +1,4 @@
+"use client";
 import { useSelector } from "react-redux";
 
 const CartTotals = () => {
@@ -17,7 +18,9 @@ const CartTotals = () => {
                 <span className="font-medium">{cartTotal?.toFixed(2)}</span>
               </p>
               <p className="flex justify-between text-xs border-b border-neutral pb-2">
-                <span>Shipping {shipping?.toFixed(2)==0.00 && "(Free Shipping)"}</span>
+                <span>
+                  Shipping {shipping?.toFixed(2) == 0.0 && "(Free Shipping)"}
+                </span>
                 <span className="font-medium">{shipping?.toFixed(2)}</span>
               </p>
               <p className="flex justify-between text-xs border-b border-neutral pb-2">
@@ -26,7 +29,9 @@ const CartTotals = () => {
               </p>
               <p className="flex justify-between text-sm mt-4 pb-2">
                 <span>Order Total</span>
-                <span className="font-medium">&#8377;{orderTotal?.toFixed(2)}</span>
+                <span className="font-medium">
+                  &#8377;{orderTotal?.toFixed(2)}
+                </span>
               </p>
             </div>
           </div>

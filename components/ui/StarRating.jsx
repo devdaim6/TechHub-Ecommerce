@@ -1,5 +1,4 @@
-// StarRating.js
-
+"use client"
 import React from "react";
 
 const StarRating = ({ rating }) => {
