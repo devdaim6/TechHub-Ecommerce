@@ -237,8 +237,8 @@ const SingleProduct = ({ name, productId, productCode }) => {
               <li>Weight : {data?.weight}kg</li>
               <li>
                 Color options:{" "}
-                {data?.colors?.map((color) => (
-                  <span>{color} ,</span>
+                {data?.colors?.map((color,index) => (
+                  <span key={index}>{color} ,</span>
                 ))}
               </li>
               <li>
