@@ -15,9 +15,29 @@ const OrderSchema = new mongoose.Schema(
           ref: "Product",
           required: true,
         },
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
         quantity: {
           type: Number,
           required: true,
+        },
+        price: {
+          type: Number,
+        },
+        productColor: {
+          type: String,
+        },
+        name: {
+          type: String,
+        },
+        imageUrl: {
+          type: String,
+        },
+        size: {
+          type: String,
         },
       },
     ],
@@ -26,16 +46,21 @@ const OrderSchema = new mongoose.Schema(
       required: true,
     },
     isShippingFree: { type: Boolean, default: false },
+    pickUpAtStore: { type: Boolean, default: false },
     paymentId: String,
-    paymentOption: String,
+    paymentOption: {
+      type: String,
+      enum: ["cod", "online"],
+      default: "cod",
+    },
     paymentStatus: {
       type: String,
-      enum: ["pending", "paid", "unpaid"],
+      enum: ["pending", "paid"],
       default: "pending",
     },
     orderStatus: {
       type: String,
-      enum: ["pending", "processing", "shipped", "delivered"],
+      enum: ["pending", "processing", "cancelled", "shipped", "delivered"],
       default: "pending",
     },
     shippingAddress: {
@@ -56,13 +81,6 @@ const OrderSchema = new mongoose.Schema(
       },
       zipCode: {
         type: Number,
-        validate: {
-          validator: function (value) {
-            return /^\d{6}$/.test(value.toString());
-          },
-          message: (props) => `${props.value} is not a valid 6-digit zip code!`,
-        },
-        required: [true, "Zip code is required"],
       },
     },
   },

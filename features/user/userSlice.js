@@ -24,8 +24,8 @@ const userSlice = createSlice({
     },
     logoutUser: (state) => {
       state.user = null;
-      removeUserFromLocalStorage();
       toast.success("Logged out successfully");
+      removeUserFromLocalStorage();
     },
   },
 });

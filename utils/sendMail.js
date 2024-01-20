@@ -133,6 +133,7 @@ export const sendMail = async (
     subject: subject,
     html: message,
   };
+  
   try {
     await sgMail.send(msg);
     console.log("Email sent");

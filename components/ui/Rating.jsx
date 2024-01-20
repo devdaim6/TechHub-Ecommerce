@@ -1,37 +1,28 @@
+"use client";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setReviewRating } from "@/features/reviews/reviewsSlice";
+const RatingComponent = () => {
+  const dispatch = useDispatch();
+  const reviewData = useSelector((state) => state.reviews);
 
-const Rating = () => {
+  const handleRatingChange = (rating) => {
+    dispatch(setReviewRating(parseInt(rating)));
+  };
   return (
-    <>
-      <div className="rating">
+    <div className="rating rating-md">
+      {[1, 2, 3, 4, 5].map((rating) => (
         <input
+          key={rating}
           type="radio"
-          name="rating-1"
+          name="rating-7"
           className="mask mask-star-2 bg-orange-400"
+          defaultChecked={rating === reviewData.rating}
+          onChange={() => handleRatingChange(rating)}
         />
-        <input
-          type="radio"
-          name="rating-2"
-          className="mask mask-star-2 bg-orange-400"
-        />
-        <input
-          type="radio"
-          name="rating-3"
-          className="mask mask-star-2 bg-orange-400"
-        />
-        <input
-          type="radio"
-          name="rating-4"
-          className="mask mask-star-2 bg-orange-400"
-        />
-        <input
-          type="radio"
-          name="rating-5"
-          className="mask mask-star-2 bg-orange-400"
-        />
-      </div>
-    </>
+      ))}
+    </div>
   );
 };
 
-export default Rating;
+export default RatingComponent;

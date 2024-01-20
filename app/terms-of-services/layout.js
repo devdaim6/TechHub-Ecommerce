@@ -6,7 +6,7 @@ export const metadata = {
   author: "Tech Hub",
   url: "https://tech-hub-ak.vercel.app/terms-and-services",
   type: "article",
-  siteName: "Tech Hub",
+  siteName: "techhub",
 };
 
 export default function RootLayout({ children }) {

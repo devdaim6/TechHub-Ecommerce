@@ -51,7 +51,7 @@ const Filters = ({ currentPage, filters, totalProducts }) => {
       <form
         method="dialog"
         onSubmit={handleSearch}
-        className=" bg-base-200 rounded-md px-3 py-4 grid gap-x-2  gap-y-8  items-center"
+        className=" bg-base-200 rounded-md px-3 py-4 grid gap-x-2  gap-y-4  items-center"
       >
         <div className="flex  overflow-x-hidden">
           <div className="lg:w-1/2">
@@ -77,7 +77,7 @@ const Filters = ({ currentPage, filters, totalProducts }) => {
         <form
           method="dialog"
           onSubmit={handleSearch}
-          className=" bg-base-200 rounded-md px-3 py-4 grid gap-x-2  gap-y-8  items-center"
+          className=" bg-base-200 rounded-md px-3 py-4 grid gap-x-2  gap-y-1  items-center"
         >
           <div className="lg:grid hidden">
             <FilterForm filters={filters} dispatch={dispatch} />

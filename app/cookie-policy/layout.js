@@ -6,7 +6,7 @@ export const metadata = {
   author: "Tech Hub",
   url: "https://tech-hub-ak.vercel.app/cookie-policy",
   type: "article",
-  siteName: "Tech Hub",
+  siteName: "techhub",
 };
 export default function RootLayout({ children }) {
   return <>{children}</>;

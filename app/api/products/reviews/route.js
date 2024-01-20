@@ -4,7 +4,8 @@ import User from "@/models/user";
 import { NextResponse } from "next/server";
 import randomstring from "randomstring";
 export async function POST(req) {
-  const { productId, rating, comment, image, title, userId } = await req.json();
+  const { productId, rating, comment, image, title, userId, name } =
+    await req.json();
   const reviewCode = randomstring.generate();
   try {
     await connectMongoDB();
@@ -31,7 +32,7 @@ export async function POST(req) {
     product.reviews.push({
       user: userId,
       rating,
-      name: user?.name,
+      name: name || user?.name,
       comment,
       image,
       title,

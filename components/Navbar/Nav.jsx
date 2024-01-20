@@ -125,7 +125,9 @@ const Nav = () => {
                 <span className="font-bold text-lg">
                   {numItemsInCart} Items
                 </span>
-                <span className="text-info">Subtotal: ${cartTotal}</span>
+                <span className="text-info">
+                  Subtotal: &#8377;{cartTotal.toFixed(2)}
+                </span>
                 <div className="card-actions">
                   <button className="btn btn-primary btn-block">
                     <Link href="/cart">View cart</Link>
@@ -165,7 +167,7 @@ const Nav = () => {
                     <Link href="/wishlist">My Wishlist</Link>
                   </li>
                   <li>
-                    <Link href="/adresses">Saved Addresses</Link>
+                    <Link href="/addresses">Saved Addresses</Link>
                   </li>
                   <li>
                     <button

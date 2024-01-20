@@ -1,7 +1,6 @@
 "use client";
-
-import axios from "axios";
 import { getCookie } from "@/utils/getCookie";
+
 export const formatPrice = (price) => {
   const InrAmount = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -38,9 +37,11 @@ export const getBase64 = (file) => {
 export const setUserToLocalStorage = (user) => {
   localStorage.setItem("user", JSON.stringify(user));
 };
+
 export const removeUserFromLocalStorage = () => {
   localStorage.removeItem("user");
 };
+
 export const getUserFromLocalStorage = () => {
   const user = localStorage.getItem("user");
   if (!user) return null;
@@ -50,4 +51,54 @@ export const getUserFromLocalStorage = () => {
 export const getToken = async () => {
   const token = await getCookie("next-auth.session-token");
   return token;
+};
+
+export const getCartFromLocalStorage = (defaultState) => {
+  const cartData = localStorage.getItem("cart");
+  if (cartData) {
+    return JSON.parse(cartData);
+  }
+  localStorage.setItem("cart", JSON.stringify(defaultState));
+  return defaultState;
+};
+
+export const editQuantity = async (productId, quantity) => {
+  const userId = getUserFromLocalStorage()?.id;
+  if (!userId) return;
+  const res = await fetch(`/api/user/${userId}/cart`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ productId, quantity }),
+  });
+  return res;
+};
+
+export const pushToCart = async (productId, quantity) => {
+  const userId = getUserFromLocalStorage()?.id;
+
+  if (!userId) return;
+  const res = await fetch(`/api/user/${userId}/cart`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ productId, quantity }),
+  });
+  return res;
+};
+
+export const removeFromCart = async (productId) => {
+  const userId = getUserFromLocalStorage()?.id;
+
+  if (!userId) return;
+  const res = await fetch(`/api/user/${userId}/cart`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ productId }),
+  });
+  return res;
 };

@@ -1,7 +1,6 @@
 import { connectMongoDB } from "@/lib/db";
 import Product from "@/models/product";
 import { getSortOrder } from "@/utils/getSortOrder";
-import { redis } from "@/utils/redis";
 import { NextResponse } from "next/server";
 import randomstring from "randomstring";
 export async function GET(req) {
@@ -20,7 +19,7 @@ export async function GET(req) {
   if (searchProduct) {
     query.$or = [
       { name: { $regex: new RegExp(searchProduct, "i") } },
-      { category: { $regex: new RegExp(searchProduct, "i") } },
+      { category: { $in: [new RegExp(searchProduct, "i")] } },
     ];
   }
 
@@ -40,9 +39,9 @@ export async function GET(req) {
     query.shipping = search?.shipping;
   }
 
-  if (categoriesArray.length > 0) {
-    query.category = { $in: categoriesArray };
-  }
+  // if (categoriesArray.length > 0) {
+  //   query.category = { $in: categoriesArray };
+  // }
 
   const skip = (currentPage - 1) * perPage;
 
@@ -82,6 +81,8 @@ export async function POST(req) {
       description,
       price,
       category,
+      material,
+      detailedDescription,
       sizes,
       colors,
       shipping,
@@ -114,6 +115,8 @@ export async function POST(req) {
       name,
       description,
       price,
+      detailedDescription,
+      material,
       category,
       sizes,
       colors,

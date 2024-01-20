@@ -15,7 +15,7 @@ const handler = async function POST(req) {
   const findUser = await User.findOne({ [typeOfMessenger]: findBy });
   if (!findUser) {
     return NextResponse.json({
-      message: "No User Found with this Email",
+      message: `No User Found with this ${typeOfMessenger}`,
       success: false,
     });
   }

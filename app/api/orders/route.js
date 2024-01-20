@@ -13,6 +13,7 @@ export async function POST(req) {
       paymentId,
       paymentOption,
       paymentStatus,
+      pickUpAtStore,
       orderStatus,
       shippingAddress,
     } = await req.json();
@@ -39,10 +40,11 @@ export async function POST(req) {
       orderItems,
       totalAmount,
       isShippingFree,
-      orderStatus: paymentStatus == "paid" && "processing",
+      orderStatus: "processing",
       paymentId,
+      pickUpAtStore,
       paymentOption,
-      paymentStatus,
+      paymentStatus: pickUpAtStore ? "pending" : "paid",
       shippingAddress,
     };
     const order = new Order(orderDetails);

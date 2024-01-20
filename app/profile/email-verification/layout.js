@@ -5,7 +5,7 @@ export const metadata = {
   author: "Tech Hub",
   url: "https://tech-hub-ak.vercel.app/profile/email-verification",
   type: "verification",
-  siteName: "Tech Hub",
+  siteName: "techhub",
 };
 export default function RootLayout({ children }) {
   return <>{children}</>;

@@ -5,6 +5,7 @@ import Pagination from "../ui/Pagination";
 import { useSelector } from "react-redux";
 import ScreenLoading from "../ui/ScreenLoading";
 import ProductGrid from "./ProductGrid";
+import Link from "next/link";
 
 const ProductsPage = () => {
   const filters = useSelector((state) => state.filter);
@@ -13,6 +14,16 @@ const ProductsPage = () => {
   );
   return (
     <>
+      <div className="text-md breadcrumbs">
+        <ul>
+          <li>
+            <Link href="/">Home</Link>
+          </li>
+          <li>
+            <Link href="/products">Products</Link>
+          </li>
+        </ul>
+      </div>
       <Filters
         currentPage={currentPage}
         filters={filters}

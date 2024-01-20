@@ -12,7 +12,7 @@ export async function GET(req, { params }) {
   if (field == "reviews") {
     return NextResponse.json(reviews);
   }
-  if (field == product?.code) {
+  if (field == product?.productCode) {
     return NextResponse.json(productDetails);
   }
   return NextResponse.json({ error: "Field must be specified" });
