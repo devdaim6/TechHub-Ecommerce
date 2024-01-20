@@ -3,7 +3,9 @@ import {
   getCartFromLocalStorage,
   getUserFromLocalStorage,
   pushToCart,
+  removeCartFromLocalStorage,
   removeFromCart,
+  setCartToLocalStorage,
 } from "@/utils/util";
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "sonner";
@@ -51,7 +53,7 @@ const cartSlice = createSlice({
       );
     },
     clearCart: (state) => {
-      localStorage.setItem("cart", JSON.stringify(defaultState));
+      removeCartFromLocalStorage(defaultState);
       return defaultState;
     },
     removeItem: (state, action) => {
@@ -104,7 +106,7 @@ const cartSlice = createSlice({
         state.shipping = 0;
       }
 
-      localStorage.setItem("cart", JSON.stringify(state));
+      setCartToLocalStorage(state);
     },
   },
 });

@@ -1,6 +1,7 @@
 import { connectMongoDB } from "@/lib/db";
 import Order from "@/models/orders";
 import User from "@/models/user";
+import { sendMail } from "@/utils/sendMail";
 import { NextResponse } from "next/server";
 import randomstring from "randomstring";
 export async function POST(req) {
@@ -59,6 +60,15 @@ export async function POST(req) {
     });
     await user.save();
     await order.save();
+
+     await sendMail(
+      user?.email,
+      "order",
+      "",
+      "",
+      orderCode,
+      user?.username
+    );
 
     return NextResponse.json({
       message: "Order Placed",

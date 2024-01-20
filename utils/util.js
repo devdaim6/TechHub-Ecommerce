@@ -37,9 +37,15 @@ export const getBase64 = (file) => {
 export const setUserToLocalStorage = (user) => {
   localStorage.setItem("user", JSON.stringify(user));
 };
+export const setCartToLocalStorage = (cart) => {
+  localStorage.setItem("cart", JSON.stringify(cart));
+};
 
 export const removeUserFromLocalStorage = () => {
   localStorage.removeItem("user");
+};
+export const removeCartFromLocalStorage = (defaultState) => {
+  localStorage.setItem("cart", JSON.stringify(defaultState));
 };
 
 export const getUserFromLocalStorage = () => {

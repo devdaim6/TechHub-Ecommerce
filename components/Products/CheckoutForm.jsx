@@ -78,8 +78,8 @@ const CheckoutForm = () => {
       const response = await axios.post("/api/orders", data);
       if (response?.data?.success) {
         toast.success(response?.data?.message);
-        dispatch(clearCart());
         router.push("/orders/successfull");
+        dispatch(clearCart());
       } else {
         toast.success(response?.data?.message);
       }
@@ -125,14 +125,12 @@ const CheckoutForm = () => {
           />
           <input
             name="paymentId"
-            type="text"
+            type={cart?.pickupAtStore ? "hidden" : "text"}
             placeholder={"Transaction Id *"}
             value={shippingInfo.paymentId}
             onChange={handleChange}
             required
-            className={`input input-bordered ${
-              cart?.pickupAtStore ? "hidden" : ""
-            }`}
+            className={`input input-bordered `}
           />
           <input
             name="landmark"
