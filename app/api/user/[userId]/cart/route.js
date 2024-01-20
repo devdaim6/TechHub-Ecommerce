@@ -1,13 +1,11 @@
 import { connectMongoDB } from "@/lib/db";
 import User from "@/models/user";
-import { redis } from "@/utils/redis";
 import { NextResponse } from "next/server";
 
 export async function POST(req, { params }) {
+  const { userId } = params;
+  const { productId, quantity } = await req.json();
   try {
-    const { userId } = params;
-    const { productId, quantity } = await req.json();
-
     await connectMongoDB();
     const user = await User.findOne({ _id: userId });
     if (!user) {
@@ -22,7 +20,7 @@ export async function POST(req, { params }) {
     );
 
     if (existingCartItem) {
-      existingCartItem.quantity += quantity; // Update quantity if the item already exists
+      existingCartItem.quantity += quantity;
 
       await user.save();
 
@@ -93,7 +91,6 @@ export async function PATCH(req, { params }) {
     return NextResponse.json({
       message: "Cart item updated",
       success: true,
-      cart,
     });
   } catch (error) {
     console.error("Error:", error);
@@ -140,7 +137,6 @@ export async function DELETE(req, { params }) {
     return NextResponse.json({
       message: "Cart item removed",
       success: true,
-      cart,
     });
   } catch (error) {
     console.error("Error:", error);

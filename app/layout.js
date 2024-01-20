@@ -2,6 +2,7 @@ import Nav from "@/components/Navbar/Nav";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { WebVitals } from "@/components/WebVitals";
 import TopContent from "@/components/Header/TopContent";
 import Footer from "@/components/Footer/Footer";
 import {
@@ -73,6 +74,7 @@ export default function RootLayout({ children }) {
                 {children}
                 <SpeedInsights /> 
                 <Analytics />
+                <WebVitals />
                 <Footer />
               </StoreProvider>
             </AuthProvider>

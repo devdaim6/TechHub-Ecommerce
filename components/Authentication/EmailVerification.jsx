@@ -11,7 +11,6 @@ const EmailVerification = () => {
   const email = session?.session?.user?.email;
   const { data } = useEmailVerification(email);
 
-  if (data) console.log(data);
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);

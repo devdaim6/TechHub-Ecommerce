@@ -14,11 +14,11 @@ const ForgotEmail = () => {
       username,
     });
     if (response?.data?.success) {
-      toast.success(response.data.message);
+      toast.success(response?.data?.message);
       setTimeout(() => {
         router.push("/login");
       }, 1200);
-    }
+    } else toast.error(response?.data?.message);
   };
   return (
     <>

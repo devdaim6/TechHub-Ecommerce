@@ -7,7 +7,6 @@ export async function POST(req) {
     const { productId, userId } = await req.json();
     await connectMongoDB();
 
-    // Find the product by ID
     const user = await User.findById(userId);
 
     if (!user) {
@@ -17,9 +16,9 @@ export async function POST(req) {
         status: 404,
       });
     }
-    const isProductInWishlist = user.wishlist.some((item) =>
-      item.productId.equals(productId)
-    );
+    const isProductInWishlist = user.wishlist.some((item) => {
+      return item.productId == productId;
+    });
 
     if (isProductInWishlist) {
       return NextResponse.json({

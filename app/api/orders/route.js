@@ -1,6 +1,7 @@
 import { connectMongoDB } from "@/lib/db";
 import Order from "@/models/orders";
 import User from "@/models/user";
+import { sendMail } from "@/utils/sendMail";
 import { NextResponse } from "next/server";
 import randomstring from "randomstring";
 export async function POST(req) {
@@ -13,6 +14,7 @@ export async function POST(req) {
       paymentId,
       paymentOption,
       paymentStatus,
+      pickUpAtStore,
       orderStatus,
       shippingAddress,
     } = await req.json();
@@ -39,10 +41,11 @@ export async function POST(req) {
       orderItems,
       totalAmount,
       isShippingFree,
-      orderStatus: paymentStatus == "paid" && "processing",
+      orderStatus: "processing",
       paymentId,
+      pickUpAtStore,
       paymentOption,
-      paymentStatus,
+      paymentStatus: pickUpAtStore ? "pending" : "paid",
       shippingAddress,
     };
     const order = new Order(orderDetails);
@@ -57,6 +60,15 @@ export async function POST(req) {
     });
     await user.save();
     await order.save();
+
+     await sendMail(
+      user?.email,
+      "order",
+      "",
+      "",
+      orderCode,
+      user?.username
+    );
 
     return NextResponse.json({
       message: "Order Placed",

@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5,
+      staleTime: 1000 * 60,
     },
     enabled: false,
   },

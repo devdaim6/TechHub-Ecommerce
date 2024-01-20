@@ -2,21 +2,21 @@
 import { useUser } from "@/hooks/useUser";
 import React from "react";
 import ScreenLoading from "../ui/ScreenLoading";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { getUserFromLocalStorage } from "@/utils/util";
 const UserProfilePage = () => {
-  const { data: session, status } = useSession();
+  const user = getUserFromLocalStorage();
 
-  const { data, isLoading } = useUser(session?.session?.user?.id);
+  const { data, isLoading } = useUser(user?.id);
 
-  if (isLoading || status == "loading") {
+  if (isLoading || user?.status !== "authenticated") {
     return (
       <>
         <ScreenLoading />
       </>
     );
   }
- 
+
   return (
     <>
       {!isLoading && data && (

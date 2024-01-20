@@ -49,7 +49,7 @@ const FilterForm = ({ filters, dispatch }) => {
 
   return (
     <>
-      <div className=" lg:grid  grid-cols-1 gap-4    lg:grid-cols-2">
+      <div className=" lg:grid  grid-cols-1 gap-y-1  gap-x-4   lg:grid-cols-2">
         <FormSelect
           label="Sort by"
           name="sortBy"

@@ -1,31 +1,15 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-export const useProducts = (
-  page,
-  perPage,
-  searchProduct,
-  minPrice,
-  maxPrice,
-  inStock,
-  shipping,
-  sortBy,
-  sortOrder
-) => {
+export const useProducts = (field, productId) => {
   return useQuery({
-    queryKey: [`all-products`],
+    queryKey: [`products`, field, productId],
     queryFn: async () => {
-      const { data } = await axios.get(`/api/products?
-      page=${page}&
-      perPage=${perPage}&
-      searchProduct=${searchProduct}&
-      minPrice=${minPrice}&
-      maxPrice=${maxPrice}&
-      inStock=${inStock}&
-      shipping=${shipping}&
-      sortBy=${sortBy}&
-      sortOrder=${sortOrder}`);
+      const { data } = await axios.get(
+        `/api/products/${productId}?field=${field}`
+      );
       return data;
     },
   });

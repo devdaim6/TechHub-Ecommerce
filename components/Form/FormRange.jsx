@@ -1,3 +1,4 @@
+"use client";
 import { Slider } from "@nextui-org/react";
 import React from "react";
 
@@ -39,10 +40,8 @@ const FormRange = ({ name, value, onChange }) => {
       tooltipProps={{
         offset: 10,
         classNames: {
-          base: [
-            "before:bg-accent",
-          ],
-          content: ["py-2 shadow-xl", "text-white ","bg-accent"],
+          base: ["before:bg-accent"],
+          content: ["py-2 shadow-xl", "text-white ", "bg-accent"],
         },
       }}
     />

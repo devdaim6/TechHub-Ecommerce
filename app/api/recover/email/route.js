@@ -11,7 +11,7 @@ const handler = async function POST(req) {
   const findUser = await User.findOne({ username });
   if (!findUser) {
     return NextResponse.json({
-      message: "No User Found with this Email",
+      message: "No User Found with this Username",
       success: false,
     });
   }

@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import FilterForm from "./FilterForm";
 import { FilterIcon } from "lucide-react";
