@@ -1,18 +1,15 @@
 "use client";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   fetchUserAddresses,
   selectAddresses,
 } from "@/features/address/addressSlice";
 import { getUserFromLocalStorage } from "@/utils/util";
 import { Edit2Icon, Trash2Icon } from "lucide-react";
-import ScreenLoading from "../ui/ScreenLoading";
-import { toast } from "sonner";
-import { usePathname } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import Link from "next/link";
-
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
+import ScreenLoading from "../ui/ScreenLoading";
 const SavedAddresses = () => {
   const dispatch = useDispatch();
   const addresses = useSelector(selectAddresses);

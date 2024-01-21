@@ -30,13 +30,13 @@ const Carousel = () => {
     const interval = setInterval(() => {
       const nextSlide = (currentSlide % slides.length) + 1;
       setCurrentSlide(nextSlide);
-    }, 5000);
+    }, 3500);
 
     return () => clearInterval(interval);
   }, [currentSlide, slides?.length]);
 
   return (
-    <div className="carousel carousel-center  w-[50rem] p-4 space-x-4 bg-neutral rounded-box">
+    <div className="carousel carousel-center  lg:w-[50rem] p-4 space-x-4 bg-neutral rounded-box">
       {slides?.map((slide) => (
         <div
           key={slide?.slideNumber}
