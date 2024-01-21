@@ -9,6 +9,12 @@ export const formatPrice = (price) => {
   return InrAmount;
 };
 
+export const openSuccessMessage = () => {
+  if (typeof window !== "undefined") {
+    document.getElementById("my_modal_1").showModal();
+  }
+};
+
 export const generateAmountOptions = (number) => {
   return Array.from({ length: number }, (_, index) => {
     const amount = index + 1;
@@ -33,6 +39,7 @@ export const getBase64 = (file) => {
     };
   });
 };
+
 export const setUserToLocalStorage = (user) => {
   if (typeof window !== "undefined") {
     localStorage.setItem("user", JSON.stringify(user));

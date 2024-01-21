@@ -3,8 +3,10 @@ import Link from "next/link";
 const CookiePolicy = () => {
   return (
     <div className="container mx-auto my-12 px-4">
-      <h1 className="text-4xl font-bold mb-6">Cookie Policy</h1>
-
+      <div className="divider divider-neutral">
+        {" "}
+        <h1 className="text-4xl font-bold mb-6">Cookie Policy</h1>
+      </div>
       <p className="mb-4">
         This Cookie Policy explains how TechHub (&rdquo;we,&rdquo;
         &rdquo;our,&rdquo; or &rdquo;us&rdquo;) uses cookies on our website

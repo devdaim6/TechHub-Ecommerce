@@ -1,6 +1,5 @@
 import { connectMongoDB } from "@/lib/db";
 import User from "@/models/user";
-import { redis } from "@/utils/redis";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
@@ -47,7 +46,7 @@ export async function GET(req, { params }) {
       });
     }
     const token = jwt.sign({ userId: user._id }, process.env.JWT_ORDER_TOKEN, {
-      expiresIn: "1m",
+      expiresIn: "5m",
     });
     return NextResponse.json({
       token,

@@ -4,8 +4,10 @@ import Link from "next/link";
 const PrivacyPolicy = () => {
   return (
     <div className="container mx-auto my-12 px-4">
-      <h1 className="text-4xl font-bold mb-6">Privacy Policy</h1>
-
+      <div className="divider divider-neutral">
+        {" "}
+        <h1 className="text-4xl font-bold mb-6">Privacy Policy</h1>
+      </div>
       <p className="mb-4">
         This Privacy Policy outlines how TechHub (&rdquo;we,&rdquo;
         &rdquo;our,&rdquo; or &rdquo;us&rdquo;) collects, uses, maintains, and

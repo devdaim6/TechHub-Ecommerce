@@ -1,20 +1,21 @@
 "use client";
-import { useEffect, useState } from "react";
-import { clearCart } from "@/features/cart/cartSlice";
+import { selectSelectedAddress } from "@/features/address/addressSlice";
 import { paymentToken } from "@/hooks/usePaymentTokens";
-import { getUserFromLocalStorage } from "@/utils/util";
+import { getUserFromLocalStorage, openSuccessMessage } from "@/utils/util";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import CartTotals from "../Cart/CartTotals";
+import CheckoutSuccess from "./CheckoutSuccess";
 import SelectAddress from "./SelectAddress";
 
 const CheckoutForm = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
 
   const cart = useSelector((state) => state.cartState);
+  const selectedAddress = useSelector(selectSelectedAddress);
   const [token, setToken] = useState("");
   const [shippingInfo, setShippingInfo] = useState({
     landmark: "",
@@ -56,6 +57,14 @@ const CheckoutForm = () => {
 
     if (response.data.success) {
       //logic for order
+      const ShippingCustom = {
+        landmark: shippingInfo?.landmark,
+        city: shippingInfo?.city,
+        state: shippingInfo?.state,
+        name: shippingInfo?.name,
+        phone: parseInt(shippingInfo?.phone),
+        zipCode: shippingInfo?.zipCode ? parseInt(shippingInfo?.zipCode) : "",
+      };
       const data = {
         userId: getUserFromLocalStorage()?.id,
         orderItems: cart?.cartItems,
@@ -65,21 +74,12 @@ const CheckoutForm = () => {
         paymentId: shippingInfo?.paymentId,
         paymentOption: cart?.pickupAtStore ? "cod" : "online",
         paymentStatus: cart?.pickupAtStore ? "pending" : "paid",
-        shippingAddress: {
-          landmark: shippingInfo?.landmark,
-          city: shippingInfo?.city,
-          state: shippingInfo?.state,
-          name: shippingInfo?.name,
-          phone: parseInt(shippingInfo?.phone),
-          zipCode: shippingInfo?.zipCode ? parseInt(shippingInfo?.zipCode) : "",
-        },
+        shippingAddress: cart?.pickupAtStore ? ShippingCustom : selectedAddress,
       };
 
       const response = await axios.post("/api/orders", data);
       if (response?.data?.success) {
-        toast.success(response?.data?.message);
-        router.push("/orders/successfull");
-        dispatch(clearCart());
+        openSuccessMessage();
       } else {
         toast.success(response?.data?.message);
       }
@@ -97,6 +97,11 @@ const CheckoutForm = () => {
   return (
     <>
       <div className="p-4 mt-8 grid gap-8 md:grid-cols-2 items-start">
+        {" "}
+        <div className="flex flex-col">
+          {!cart?.pickupAtStore && <SelectAddress />}
+          <CartTotals />
+        </div>
         <form
           className="flex flex-col gap-y-4"
           onSubmit={(e) => handleOrder(e, shippingInfo)}
@@ -111,7 +116,7 @@ const CheckoutForm = () => {
             placeholder="Name *"
             value={shippingInfo.name}
             onChange={handleChange}
-            required
+            required={cart?.pickupAtStore ? true : false}
             className="input input-bordered"
           />
           <input
@@ -119,7 +124,7 @@ const CheckoutForm = () => {
             type="tel"
             placeholder="Phone *"
             value={shippingInfo.phone}
-            required
+            required={cart?.pickupAtStore ? true : false}
             onChange={handleChange}
             className="input input-bordered"
           />
@@ -170,11 +175,8 @@ const CheckoutForm = () => {
             </button>
           </div>
         </form>
-        <div className="flex flex-col">
-          {!cart?.pickupAtStore && <SelectAddress />}
-          <CartTotals />
-        </div>
       </div>
+      <CheckoutSuccess />
     </>
   );
 };
