@@ -4,6 +4,7 @@ import userReducer from "@/features/user/userSlice";
 import productReducer from "@/features/products/productSlice";
 import singleProductReducer from "@/features/products/singleProduct/singleProductSlice";
 import reviewsReducer from "@/features/reviews/reviewsSlice";
+import addressReducer from "@/features/address/addressSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
@@ -14,5 +15,6 @@ export const store = configureStore({
     products: productReducer,
     singleProduct: singleProductReducer,
     reviews: reviewsReducer,
+    addresses: addressReducer,
   },
 });

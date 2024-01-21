@@ -84,8 +84,11 @@ const Filters = ({ currentPage, filters, totalProducts }) => {
         </form>
       )}
       {totalProducts > 0 && (
-        <div className="flex justify-between bg-neutral">
-          <span className="py-1 text-accent">{totalProducts} Products Found </span>
+        <div className="flex justify-between bg-base-300">
+          <span className="py-1 text-accent">
+            {totalProducts === 1 ? `${totalProducts} Product` : "Products"}{" "}
+            Found{" "}
+          </span>
         </div>
       )}
     </>

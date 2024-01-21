@@ -35,7 +35,10 @@ const ContactUSPage = () => {
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col  ">
           <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold">Contact Us!</h1>
+            <div className="divider divider-neutral">
+              {" "}
+              <h1 className="text-5xl font-bold">Contact Us! </h1>
+            </div>
           </div>
           <div className="card shrink-0 w-full max-w-xl shadow-2xl bg-base-100">
             <form className="card-body" onSubmit={handleContactForm}>

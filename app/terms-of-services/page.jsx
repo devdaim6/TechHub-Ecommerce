@@ -4,7 +4,9 @@ import Link from "next/link";
 const TermsOfService = () => {
   return (
     <div className="container mx-auto my-12 px-4">
-      <h1 className="text-4xl font-bold mb-6">Terms of Service</h1>
+      <div className="divider divider-neutral">
+        <h1 className="text-4xl font-bold mb-6">Terms of Service</h1>
+      </div>
 
       <p className="mb-4">
         By using the TechHub website (&rdquo;Service&rdquo;), you agree to

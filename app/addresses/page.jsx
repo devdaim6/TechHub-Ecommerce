@@ -1,8 +1,9 @@
+import SavedAddresses from '@/components/Addresses/SavedAddresses'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>Addressess</div>
+    <><SavedAddresses/></>
   )
 }
 

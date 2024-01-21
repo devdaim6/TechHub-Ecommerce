@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const handleAddToWishlist = async (productid, userId) => {
+export const handleAddToWishlist = async (productId, userId) => {
   try {
     const res = await axios.post("/api/products/wishlist", {
-      productid,
+      productId,
       userId,
     });
     return res.data;

@@ -2,6 +2,37 @@ import { connectMongoDB } from "@/lib/db";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
 
+export async function GET(req, { params }) {
+  try {
+    const { userId } = params;
+    const { searchParams } = new URL(req.url);
+    const addressId = searchParams.get("address");
+
+    await connectMongoDB();
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      return NextResponse.json({
+        message: "User not found",
+        success: false,
+        status: 404,
+      });
+    }
+    const userAddresses = user?.savedAddresses;
+    const [address] = userAddresses.filter(
+      (address) => address?._id == addressId
+    );
+
+    return NextResponse.json(address);
+  } catch (error) {
+    console.error("Error:", error);
+    return NextResponse.json({
+      message: "An error occurred while fetching  Address.",
+      success: false,
+      status: 500,
+    });
+  }
+}
+
 export async function POST(req, { params }) {
   try {
     const { userId } = params;
@@ -36,8 +67,9 @@ export async function POST(req, { params }) {
 export async function PATCH(req, { params }) {
   try {
     const { userId } = params;
-    const { landmark, city, state, zipCode, name, phone, addressId } =
-      await req.json();
+    const { searchParams } = new URL(req.url);
+    const addressId = searchParams.get("address");
+    const { landmark, city, state, zipCode, name, phone } = await req.json();
 
     await connectMongoDB();
     const user = await User.findOne({ _id: userId });
@@ -88,10 +120,9 @@ export async function PATCH(req, { params }) {
 }
 
 export async function DELETE(req, { params }) {
+  const { userId } = params;
+  const { addressId } = await req.json();
   try {
-    const { userId } = params;
-    const { addressId } = await req.json();
-
     await connectMongoDB();
     const user = await User.findOne({ _id: userId });
     if (!user) {
