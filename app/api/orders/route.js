@@ -26,7 +26,9 @@ export async function POST(req) {
         charset: "numeric",
         length: 6,
       });
+
     await connectMongoDB();
+
     const user = await User.findById(userId);
     if (!user) {
       return NextResponse.json({
@@ -53,22 +55,17 @@ export async function POST(req) {
     user.orders.push({
       orderItems,
       totalAmount,
+      paymentOption,
       isShippingFree,
-      paymentStatus,
-      orderStatus,
+      pickUpAtStore,
+      paymentStatus: pickUpAtStore ? "pending" : "paid",
+      orderStatus: "processing",
       shippingAddress,
     });
     await user.save();
     await order.save();
 
-     await sendMail(
-      user?.email,
-      "order",
-      "",
-      "",
-      orderCode,
-      user?.username
-    );
+    await sendMail(user?.email, "order", "", "", orderCode, user?.username);
 
     return NextResponse.json({
       message: "Order Placed",

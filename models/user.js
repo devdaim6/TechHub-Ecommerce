@@ -95,6 +95,7 @@ const UserSchema = new mongoose.Schema(
     ],
     orders: [
       {
+        createdAt: { type: Date, default: Date.now },
         orderItems: [
           {
             productId: {
@@ -165,7 +166,6 @@ const UserSchema = new mongoose.Schema(
           },
         },
       },
-      { timestamps: true },
     ],
     wishlist: [
       {

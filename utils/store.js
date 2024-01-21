@@ -5,6 +5,7 @@ import productReducer from "@/features/products/productSlice";
 import singleProductReducer from "@/features/products/singleProduct/singleProductSlice";
 import reviewsReducer from "@/features/reviews/reviewsSlice";
 import addressReducer from "@/features/address/addressSlice";
+import dateRangeReducer from "@/features/date/dateSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
@@ -16,5 +17,6 @@ export const store = configureStore({
     singleProduct: singleProductReducer,
     reviews: reviewsReducer,
     addresses: addressReducer,
+    dateRange: dateRangeReducer,
   },
 });

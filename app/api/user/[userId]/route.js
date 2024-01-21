@@ -8,7 +8,8 @@ export async function GET(req, { params }) {
     const { userId } = params;
     const { searchParams } = new URL(req.url);
     const field = searchParams.get("field");
-
+    const startDate = searchParams.get("startDate");
+    const endDate = searchParams.get("endDate");
     const cachedField = await redis.get(
       `user-${field ? field : "profile"}-${userId}`
     );
@@ -26,10 +27,22 @@ export async function GET(req, { params }) {
         status: 404,
       });
     }
-
     const { orders, wishlist, savedAddresses, cart, reviews, ...restUser } =
       user.toObject();
-
+    
+    if (field == "orders") {
+      const ordersInDateRange = orders?.filter(
+        (order) =>
+          order?.createdAt >= new Date(startDate) &&
+          order?.createdAt <= new Date(endDate)
+      );
+      await redis.setex(
+        `user-orders-${userId}`,
+        30,
+        JSON.stringify(ordersInDateRange)
+      );
+      return NextResponse.json(ordersInDateRange);
+    }
     if (field) {
       const selectedField = user[field];
       await redis.setex(
