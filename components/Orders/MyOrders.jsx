@@ -43,10 +43,10 @@ const MyOrders = () => {
         <ScreenLoading />
       ) : (
         <div>
-          <h1 className="text-xl py-4  font-semibold text-center">
+          <h1 className="text-xl pt-4  font-semibold text-center">
             <div className="divider">My Orders</div>
           </h1>
-          <div className="flex justify-end gap-x-4  mr-4 mt-5">
+          <div className="flex justify-end gap-x-4  mr-4 mb-5 pb-5">
             <div onClick={openFilterLabel} className="cursor-pointer">
               <FilterIcon />
               <FilterLabelModal />
@@ -55,14 +55,17 @@ const MyOrders = () => {
               <CalendarDaysIcon />
               <FilterDateModal />
             </div>
-            <div className="flex bg-neutral   rounded-md ">
-              <span className="mx-1 my-1 ">
-                <PackageSearchIcon size={18} />
+            <div className="flex bg-neutral-content/30  rounded-md ">
+              <span className="mx-1 my-1 cursor-pointer">
+                <label htmlFor="search">
+                  <PackageSearchIcon size={18} />
+                </label>
               </span>
               <input
-                type="text"
-                className="ml-1 mr-0 bg-neutral outline-none rounded-r-md "
-                placeholder="Search Your Orders"
+                id="search"
+                type="search"
+                className="ml-1 mr-0 bg-neutral-content/10 outline-none rounded-r-md "
+                placeholder="   Search Your Orders"
               />
             </div>
           </div>
