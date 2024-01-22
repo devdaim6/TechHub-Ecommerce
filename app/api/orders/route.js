@@ -55,6 +55,7 @@ export async function POST(req) {
     user.orders.push({
       orderItems,
       totalAmount,
+      orderCode,
       paymentOption,
       isShippingFree,
       pickUpAtStore,

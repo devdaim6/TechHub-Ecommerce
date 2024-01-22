@@ -25,8 +25,15 @@ const cartSlice = createSlice({
   initialState: getCartFromLocalStorage(defaultState),
   reducers: {
     addItem: (state, action) => {
-      const { productId, quantity, price, productColor, name, imageUrl } =
-        action.payload;
+      const {
+        productId,
+        productCode,
+        quantity,
+        price,
+        productColor,
+        name,
+        imageUrl,
+      } = action.payload;
       const item = state.cartItems.find((i) => i.productId === productId);
       if (item) {
         if (item?.productColor !== productColor || item?.price != price) {
@@ -37,6 +44,7 @@ const cartSlice = createSlice({
       } else {
         state.cartItems.push({
           productId,
+          productCode,
           quantity,
           userId: getUserFromLocalStorage()?.id,
           price,

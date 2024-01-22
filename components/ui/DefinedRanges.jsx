@@ -16,9 +16,6 @@ const DefinedRanges = () => {
         onChange={handleDateChange}
         ranges={date}
         rangeColors={["#3d91ff", "#3ecf8e", "#fed14c"]}
-        headerContent={
-          <div className="text-xl font-semibold">Select Range</div>
-        }
       />
     </>
   );

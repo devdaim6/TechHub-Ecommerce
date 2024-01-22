@@ -16,7 +16,7 @@ const CheckoutSuccess = () => {
           </p>
           <div className="modal-action flex justify-center">
             <form method="dialog">
-              <Link href="/">
+              <Link href="/orders">
                 <button
                   onClick={() => dispatch(clearCart())}
                   className="btn btn-accent btn-block"

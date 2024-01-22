@@ -2,4 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
- 
+.date-range-picker-container {
+    width: 100%;
+  }
+  
+  /* Adjust styles for larger screens */
+  @media (min-width: 768px) {
+    .date-range-picker-container {
+      max-width: 600px; /* Set your desired max-width for larger screens */
+      margin: 0 0; /* Center the component on larger screens */
+    }
+  }
+  

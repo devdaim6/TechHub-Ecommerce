@@ -10,6 +10,36 @@ export async function GET(req, { params }) {
     const field = searchParams.get("field");
     const startDate = searchParams.get("startDate");
     const endDate = searchParams.get("endDate");
+    const endOfDay = new Date(endDate);
+    endOfDay.setHours(23, 59, 59, 999);
+    const startOfDay = new Date(startDate);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    await connectMongoDB();
+    if (field === "orders") {
+      const user = await User.findOne(
+        {
+          _id: userId,
+          "orders.createdAt": {
+            $gte: startOfDay,
+            $lte: endOfDay,
+          },
+        },
+        "orders"
+      )
+        .lean()
+        
+
+      const ordersArray =
+        user?.orders.filter(
+          (order) =>
+            order.createdAt >= startOfDay && order.createdAt <= endOfDay
+        ) || [];
+      const sortedOrdersArray = ordersArray.sort(
+        (a, b) => b.createdAt - a.createdAt
+      );
+      return NextResponse.json(sortedOrdersArray);
+    }
     const cachedField = await redis.get(
       `user-${field ? field : "profile"}-${userId}`
     );
@@ -18,7 +48,6 @@ export async function GET(req, { params }) {
       return NextResponse.json(parsedField);
     }
 
-    await connectMongoDB();
     const user = await User.findOne({ _id: userId });
     if (!user) {
       return NextResponse.json({
@@ -29,20 +58,7 @@ export async function GET(req, { params }) {
     }
     const { orders, wishlist, savedAddresses, cart, reviews, ...restUser } =
       user.toObject();
-    
-    if (field == "orders") {
-      const ordersInDateRange = orders?.filter(
-        (order) =>
-          order?.createdAt >= new Date(startDate) &&
-          order?.createdAt <= new Date(endDate)
-      );
-      await redis.setex(
-        `user-orders-${userId}`,
-        30,
-        JSON.stringify(ordersInDateRange)
-      );
-      return NextResponse.json(ordersInDateRange);
-    }
+
     if (field) {
       const selectedField = user[field];
       await redis.setex(

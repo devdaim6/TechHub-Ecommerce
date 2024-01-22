@@ -1,13 +1,14 @@
+import { closeFilterDate } from "@/utils/util";
 import { createSlice } from "@reduxjs/toolkit";
-import { addDays, format } from "date-fns";
+import { addDays  } from "date-fns";
 
 const dateSlice = createSlice({
   name: "date",
   initialState: {
     date: [
       {
-        startDate: new Date(),
-        endDate: addDays(new Date(), -7),
+        startDate: addDays(new Date(), -7).toISOString(),
+        endDate: new Date().toISOString(),
         key: "selection",
       },
     ],
@@ -16,14 +17,8 @@ const dateSlice = createSlice({
     setDate: (state, action) => {
       state.date = [
         {
-          startDate: format(
-            action.payload.selection.startDate,
-            "yyyy-MM-dd'T'HH:mm:ssXXX"
-          ),
-          endDate: format(
-            action.payload.selection.endDate,
-            "yyyy-MM-dd'T'HH:mm:ssXXX"
-          ),
+          startDate: new Date(action.payload.selection.startDate).toISOString(),
+          endDate: new Date(action.payload.selection.endDate).toISOString(),
           key: "selection",
         },
       ];
