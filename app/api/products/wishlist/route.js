@@ -7,7 +7,7 @@ export async function POST(req) {
     const { productId, userId } = await req.json();
     await connectMongoDB();
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select("wishlist");
 
     if (!user) {
       return NextResponse.json({
@@ -16,11 +16,10 @@ export async function POST(req) {
         status: 404,
       });
     }
-    const isProductInWishlist = user.wishlist.some((item) => {
-      return item.productId == productId;
+    const isProductInWishlist = user?.wishlist?.filter((item) => {
+      return item?.productId == productId;
     });
-
-    if (isProductInWishlist) {
+    if (isProductInWishlist.length > 0) {
       return NextResponse.json({
         message: "Product is Already in Wishlist.",
         success: false,
@@ -52,7 +51,6 @@ export async function DELETE(req) {
     const { productId, userId } = await req.json();
     await connectMongoDB();
 
-    // Find the user by ID
     const user = await User.findById(userId);
 
     if (!user) {

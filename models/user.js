@@ -149,6 +149,10 @@ const UserSchema = new mongoose.Schema(
           enum: ["pending", "processing", "cancelled", "shipped", "delivered"],
           default: "pending",
         },
+        orderCancellationReason: {
+          type: String,
+          default: "",
+        },
         shippingAddress: {
           landmark: String,
           city: String,

@@ -1,4 +1,5 @@
 import { connectMongoDB } from "@/lib/db";
+import Product from "@/models/product";
 import User from "@/models/user";
 import { redis } from "@/utils/redis";
 import { NextResponse } from "next/server";
@@ -26,9 +27,7 @@ export async function GET(req, { params }) {
           },
         },
         "orders"
-      )
-        .lean()
-        
+      ).lean();
 
       const ordersArray =
         user?.orders.filter(
@@ -46,6 +45,28 @@ export async function GET(req, { params }) {
     if (cachedField) {
       const parsedField = JSON.parse(cachedField);
       return NextResponse.json(parsedField);
+    }
+    if (field === "wishlist") {
+      const user = await User.findOne({ _id: userId }).select("wishlist");
+      const populatedWishlist = await Promise.all(
+        user?.wishlist.map(async (wishlistItem) => {
+          const productDetails = await Product.findById(
+            wishlistItem.productId
+          ).select("productCode name imageUrl price");
+          return {
+            ...wishlistItem.toObject(),
+            productDetails,
+          };
+        })
+      );
+
+      await redis.setex(
+        `user-${"wishlist"}-${userId}`,
+        30,
+        JSON.stringify(populatedWishlist)
+      );
+
+      return NextResponse.json(populatedWishlist);
     }
 
     const user = await User.findOne({ _id: userId });
