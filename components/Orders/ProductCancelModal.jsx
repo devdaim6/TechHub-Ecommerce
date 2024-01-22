@@ -28,7 +28,7 @@ const ProductCancelModal = ({
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1 text-error">
-              Are You Sure To Cancel This Order ?
+                Are You Sure To Cancel This Order ?
               </ModalHeader>
               <ModalBody>
                 <p>
@@ -46,7 +46,8 @@ const ProductCancelModal = ({
                     undone.
                   </li>
                   <li className="font-semibold text-primary">
-                    If order details haven't updated, try refreshing the page.
+                    If order details haven&apos;t updated, try refreshing the
+                    page.
                   </li>
                   <li>
                     For any questions or concerns,{" "}
@@ -54,9 +55,9 @@ const ProductCancelModal = ({
                   </li>
                 </ul>
                 <p>
-                  If you're certain about canceling, click "Cancel Order" below.
-                  Otherwise, click outside this dialog or the "Keep Order"
-                  button to maintain your order.
+                  If you&apos;re certain about canceling, click &ldquo;Cancel
+                  Order&ldquo; below. Otherwise, click outside this dialog or
+                  the &ldquo;Keep Order&ldquo; button to maintain your order.
                 </p>
               </ModalBody>
               <ModalFooter>
