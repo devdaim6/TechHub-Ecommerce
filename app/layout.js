@@ -1,5 +1,7 @@
 import Nav from "@/components/Navbar/Nav";
 import "./globals.css";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { WebVitals } from "@/components/WebVitals";
@@ -72,7 +74,7 @@ export default function RootLayout({ children }) {
                 <Toaster closeButton position="top-center" />
                 <Nav />
                 {children}
-                <SpeedInsights /> 
+                <SpeedInsights />
                 <Analytics />
                 <WebVitals />
                 <Footer />

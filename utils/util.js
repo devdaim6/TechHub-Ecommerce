@@ -15,6 +15,17 @@ export const openSuccessMessage = () => {
   }
 };
 
+export const openFilterDate = () => {
+  if (typeof window !== "undefined") {
+    document.getElementById("my_modal_6").showModal();
+  }
+};
+export const openFilterLabel = () => {
+  if (typeof window !== "undefined") {
+    document.getElementById("my_modal_5").showModal();
+  }
+};
+
 export const generateAmountOptions = (number) => {
   return Array.from({ length: number }, (_, index) => {
     const amount = index + 1;

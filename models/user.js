@@ -95,12 +95,17 @@ const UserSchema = new mongoose.Schema(
     ],
     orders: [
       {
+        createdAt: { type: Date, default: Date.now },
+        orderCode: { type: String, required: true },
         orderItems: [
           {
             productId: {
               type: mongoose.Schema.Types.ObjectId,
               ref: "Product",
               required: true,
+            },
+            productCode: {
+              type: String,
             },
             quantity: {
               type: Number,
@@ -141,7 +146,7 @@ const UserSchema = new mongoose.Schema(
         },
         orderStatus: {
           type: String,
-          enum: ["pending", "processing", "shipped", "delivered"],
+          enum: ["pending", "processing", "cancelled", "shipped", "delivered"],
           default: "pending",
         },
         shippingAddress: {
@@ -165,7 +170,6 @@ const UserSchema = new mongoose.Schema(
           },
         },
       },
-      { timestamps: true },
     ],
     wishlist: [
       {

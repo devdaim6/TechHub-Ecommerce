@@ -48,6 +48,7 @@ const SingleProduct = ({ name, productId, productCode }) => {
     dispatch(
       addItem({
         productId: productId,
+        productCode: product?.data?.productCode,
         quantity: product?.quantity,
         price: product?.price || data?.price,
         productColor: product?.productColor || data?.colors[0],
@@ -100,7 +101,7 @@ const SingleProduct = ({ name, productId, productCode }) => {
                     </p>
                     <StarRating rating={data?.averageRating.toFixed(1)} />
                     <p className="text-sm text-primary ml-1 cursor-pointer">
-                      <Link href="#reviews">
+                      <Link scroll={true} href="#reviews">
                         (
                         {data?.reviewsCount === 1
                           ? `${data?.reviewsCount} review`
@@ -237,7 +238,7 @@ const SingleProduct = ({ name, productId, productCode }) => {
               <li>Weight : {data?.weight}kg</li>
               <li>
                 Color options:{" "}
-                {data?.colors?.map((color,index) => (
+                {data?.colors?.map((color, index) => (
                   <span key={index}>{color} ,</span>
                 ))}
               </li>
