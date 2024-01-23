@@ -9,7 +9,7 @@ import {
 import { useProducts } from "@/hooks/useProduct";
 import { handleAddToWishlist } from "@/utils/pushToWishlist";
 import { generateAmountOptions, getUserFromLocalStorage } from "@/utils/util";
-import { BookmarkPlus } from "lucide-react";
+import { BookmarkPlus, ShoppingCartIcon } from "lucide-react";
 import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from "react-redux";
@@ -212,8 +212,8 @@ const SingleProduct = ({ name, productId, productCode }) => {
                 </div>
 
                 <div className="mt-5">
-                  <button className="btn btn-accent btn-md" onClick={addToCart}>
-                    Add to bag
+                  <button className="btn btn-accent btn-md flex gap-x-2" onClick={addToCart}>
+                  <ShoppingCartIcon /> Add to bag
                   </button>
                 </div>
               </div>

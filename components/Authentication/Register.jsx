@@ -28,28 +28,28 @@ const Register = () => {
         phone,
         image,
       });
-      if (response.data.status === 402) {
-        toast.success(response.data.message, {
-          description: response.data.description,
+      if (response?.data?.status === 402) {
+        toast.success(response?.data?.message, {
+          description: response?.data?.description,
         });
       }
-      if (response.data.status === 403) {
-        toast.error(response.data.message);
+      if (response?.data?.status === 403) {
+        toast.error(response?.data?.message);
       }
-      if (response.data.status === 201) {
-        toast.success(response.data.message, {
-          description: response.data.description,
+      if (response?.data?.status === 201) {
+        toast.success(response?.data?.message, {
+          description: response?.data?.description,
         });
+        localStorage.setItem("user", JSON.stringify({ email }));
         setTimeout(() => {
-          router.push("/login");
+          router.push("/profile/email-verification");
         }, 1000);
       }
     } catch (error) {
-      toast.error(response.data.message);
       console.error("Error:", error);
     }
   };
-  
+
   return (
     <>
       <div className="hero min-h-screen bg-base-200">

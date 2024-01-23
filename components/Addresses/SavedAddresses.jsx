@@ -16,12 +16,11 @@ import SavedAddressSkeleton from "../ui/SavedAddressSkeleton";
 const SavedAddresses = () => {
   const dispatch = useDispatch();
   const addresses = useSelector(selectAddresses);
-  const newAddresses = useSelector((state) => state.addresses.addresses);
   const status = useSelector(selectStatus);
 
   useEffect(() => {
     dispatch(fetchUserAddresses(getUserFromLocalStorage()?.id));
-  }, [dispatch, newAddresses.length]);
+  }, [dispatch, addresses.length]);
 
   const handleAddressDelete = async (addressId) => {
     try {
@@ -60,10 +59,10 @@ const SavedAddresses = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {status == "idle" ||
             (status == "loading" && (
-              <SavedAddressSkeleton length={newAddresses?.length} />
+              <SavedAddressSkeleton length={addresses?.length} />
             ))}
-          {newAddresses.length < 1 ? (
-            <>No Address</>
+          {status == "succeeded" && addresses.length < 1 ? (
+            <>No Saved Addresses</>
           ) : (
             addresses?.map((address) => (
               <div

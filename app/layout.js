@@ -10,9 +10,11 @@ import Nav from "@/components/Navbar/Nav";
 import { WebVitals } from "@/components/WebVitals";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { Toaster } from "sonner";
+import Error from "./error";
 import "./globals.css";
 
 export const viewport = {
@@ -67,10 +69,12 @@ export default function RootLayout({ children }) {
           <QueryProvider>
             <AuthProvider>
               <StoreProvider>
-                <TopContent />
                 <Toaster closeButton position="top-center" />
+                <TopContent />
                 <Nav />
-                <div className="mt-[4.5rem]">{children}</div>
+                <div className="mt-[4.5rem]">
+                  <ErrorBoundary fallback={<Error />}>{children}</ErrorBoundary>
+                </div>
                 <Footer />
                 <SpeedInsights />
                 <Analytics />
