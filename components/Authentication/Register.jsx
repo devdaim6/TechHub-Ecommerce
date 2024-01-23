@@ -1,11 +1,11 @@
 "use client";
-import React from "react";
 import { getBase64 } from "@/utils/util";
 import axios from "axios";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 const Register = () => {
   const router = useRouter();
+
   const handleRegistrationFormSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -49,6 +49,7 @@ const Register = () => {
       console.error("Error:", error);
     }
   };
+  
   return (
     <>
       <div className="hero min-h-screen bg-base-200">

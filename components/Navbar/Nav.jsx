@@ -13,8 +13,7 @@ const Nav = () => {
     dispatch(logoutUser());
     await signOut();
   };
-  const user = useSelector((state) => state.userState?.user);
-
+  const user = useSelector((state) => state.userState.user);
   const numItemsInCart = useSelector((state) => state.cartState.numItemsInCart);
   const cartTotal = useSelector((state) => state.cartState.cartTotal);
   return (
@@ -137,8 +136,7 @@ const Nav = () => {
             </div>
           </div>
 
-          {user?.status === "loading" && <UserAvatarSkeleton />}
-          {user?.status === "authenticated" && user && (
+          {user?.isLoggedIn && (
             <>
               <div className="dropdown dropdown-end">
                 <div

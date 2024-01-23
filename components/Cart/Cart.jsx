@@ -1,9 +1,8 @@
 "use client";
-import React from "react";
-import { useSelector } from "react-redux";
-import CartTotals from "./CartTotals";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 import CartItemsList from "./CartItemsList";
+import CartTotals from "./CartTotals";
 import CheckoutLinks from "./CheckoutLinks";
 import ShippingOptions from "./ShippingOptions";
 

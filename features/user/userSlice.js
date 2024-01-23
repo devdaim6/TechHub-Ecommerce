@@ -1,3 +1,4 @@
+"use client";
 import {
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
@@ -5,9 +6,8 @@ import {
 } from "@/utils/util";
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "sonner";
-
 const initialState = {
-  user: getUserFromLocalStorage(),
+  user: getUserFromLocalStorage() || null,
 };
 
 const userSlice = createSlice({
@@ -15,13 +15,8 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     loginUser: (state, action) => {
-      const user = {
-        ...action.payload.user,
-        token: action.payload.token,
-        status: action.payload.status,
-      };
-      setUserToLocalStorage(user);
-      state.user = user;
+      state.user = { ...action.payload, isLoggedIn: true };
+      setUserToLocalStorage(action.payload);
     },
     logoutUser: (state) => {
       state.user = null;

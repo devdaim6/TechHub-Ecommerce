@@ -1,12 +1,11 @@
 "use client";
+import { useAddress } from "@/hooks/useAddress";
 import { getUserFromLocalStorage } from "@/utils/util";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { toast } from "sonner";
-import AddressForm from "./AddressForm";
-import { useAddress } from "@/hooks/useAddress";
 import ScreenLoading from "../ui/ScreenLoading";
+import AddressForm from "./AddressForm";
 
 const EditAddress = ({ addressId }) => {
   const { data, isLoading } = useAddress(

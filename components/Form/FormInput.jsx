@@ -1,7 +1,4 @@
-"use client";
-
 import { SearchIcon } from "lucide-react";
-
 const FormInput = ({
   label,
   name,

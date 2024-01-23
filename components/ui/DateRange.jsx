@@ -34,7 +34,7 @@ const DateRange = () => {
           ranges={date}
           fixedHeight={true}
           maxDate={new Date()}
-          direction="hotizontal"
+          direction="horizontal"
         />
       </div>
     </>

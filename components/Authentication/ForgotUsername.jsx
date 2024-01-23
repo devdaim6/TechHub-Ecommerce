@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
 import axios from "axios";
-import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 const ForgotUsername = () => {
+
   const router = useRouter();
+
   const handleSendUserNameToMail = async (e) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
@@ -21,6 +22,7 @@ const ForgotUsername = () => {
       }, 1200);
     } else toast.error(response?.data?.message);
   };
+  
   return (
     <>
       {" "}

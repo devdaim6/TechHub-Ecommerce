@@ -6,9 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const EmailVerification = () => {
-  const { data, refetch } = useEmailVerification(
-    getUserFromLocalStorage()?.email
-  );
+  useEmailVerification(getUserFromLocalStorage()?.email);
   const router = useRouter();
 
   const handleVerifyOtp = async (e) => {
@@ -20,9 +18,7 @@ const EmailVerification = () => {
         email: getUserFromLocalStorage()?.email,
         otp,
       });
-
       toast.success(response.data.message);
-
       if (response.data.success) {
         setTimeout(() => {
           router.push("/profile");
@@ -32,6 +28,7 @@ const EmailVerification = () => {
       console.error("Error verifying OTP:", error);
     }
   };
+  
   return (
     <>
       {" "}

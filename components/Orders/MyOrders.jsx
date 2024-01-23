@@ -12,10 +12,11 @@ import ScreenLoading from "../ui/ScreenLoading";
 import FilterDateModal from "./FilterDateModal";
 import FilterLabelModal from "./FilterLabelModal";
 import OrderList from "./OrderList";
+import Link from "next/link";
 
 const MyOrders = () => {
   const date = useSelector((state) => state.dateRange.date);
-  const { data, isLoading, refetch } = useOrder(
+  const { data, isLoading, isSuccess, refetch, isRefetching } = useOrder(
     getUserFromLocalStorage()?.id,
     date
   );
@@ -25,7 +26,7 @@ const MyOrders = () => {
 
   return (
     <>
-      {!data || isLoading ? (
+      {!data || isLoading || isRefetching ? (
         <ScreenLoading
           upperText={"Your Orders are being Loaded"}
           lowerText={"please wait a moment..."}
@@ -58,7 +59,7 @@ const MyOrders = () => {
               />
             </div>
           </div>
-          {data &&
+          {isSuccess && data?.length > 0 ? (
             data.map((order, index) => (
               <OrderList
                 refetch={refetch}
@@ -66,7 +67,18 @@ const MyOrders = () => {
                 index={index}
                 order={order}
               />
-            ))}
+            ))
+          ) : (
+            <>
+              {" "}
+              <div className="flex flex-col items-center  justify-center min-h-[80vh] lg:min-h-screen gap-0">
+                <p className=" info-content">You haven&apos;t ordered yet</p>
+                <Link href="/products" className="btn btn-accent">
+                  Order Now
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       )}
     </>

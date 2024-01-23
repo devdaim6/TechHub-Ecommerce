@@ -1,19 +1,16 @@
 "use client";
 import { useUser } from "@/hooks/useUser";
-import React, { useState } from "react";
-import ScreenLoading from "../ui/ScreenLoading";
-import Link from "next/link";
 import { getUserFromLocalStorage } from "@/utils/util";
 import axios from "axios";
-let notificationPreference = null;
+import Link from "next/link";
+import ScreenLoading from "../ui/ScreenLoading";
+
 const UserProfilePage = () => {
   const user = getUserFromLocalStorage();
 
   const { data, isLoading } = useUser(user?.id);
-  if (data && !isLoading)
-    notificationPreference = data?.notificationPreferences?.email;
 
-  if (isLoading || user?.status !== "authenticated") {
+  if (isLoading || !user?.isLoggedIn) {
     return (
       <>
         <ScreenLoading
@@ -27,9 +24,7 @@ const UserProfilePage = () => {
     const response = await axios.patch(`/api/user/${id}/notification`, {
       notification: e.target.checked,
     });
-    if (response?.data) {
-      notificationPreference = response?.data?.notificationPreferences?.email;
-    }
+    console.log(response?.data);
   };
   return (
     <>
@@ -133,9 +128,11 @@ const UserProfilePage = () => {
                       <span>Notification Preferences</span>
                       <input
                         type="checkbox"
-                        onChange={(e) => handleChangePreferences(e, data?._id)}
+                        onClick={(e) => handleChangePreferences(e, data?._id)}
                         className="mt-1 toggle toggle-success"
-                        checked={notificationPreference}
+                        value={
+                          data?.notificationPreferences?.email ? "on" : "off"
+                        }
                       />
                     </div>
                   </div>

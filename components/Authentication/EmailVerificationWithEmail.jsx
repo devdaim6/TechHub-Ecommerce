@@ -1,55 +1,65 @@
 "use client";
-import React, { useState } from "react";
-import { toast } from "sonner";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 const EmailVerificationWithEmail = () => {
   const router = useRouter();
   const [verifyWithOtp, setVerifyWithOtp] = useState(false);
   const [email, setEmail] = useState("");
 
-  const setFunctionTOExecute = (e) => {
-    if (verifyWithOtp) {
-      handleVerifyOtp(e);
-    } else {
-      handleSendOtpVerificationEmail(e);
-    }
-  };
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
-    const form = new FormData(e.currentTarget);
+    const { otp } = new FormData(e.currentTarget);
 
-    const otp = form.get("otp");
-    const response = await axios.post("/api/email-verification/verify-otp", {
-      email,
-      otp,
-    });
+    try {
+      const response = await axios.post("/api/email-verification/verify-otp", {
+        email,
+        otp,
+      });
 
-    toast.success(response.data.message);
-    if (response.data.success) {
-      setTimeout(() => {
-        router.back();
-      }, 1500);
-      setTimeout(() => {
-        setVerifyWithOtp(false);
-      }, 1400);
+      toast.success(response.data.message);
+
+      if (response.data.success) {
+        setTimeout(() => {
+          router.back();
+        }, 1500);
+        setTimeout(() => {
+          setVerifyWithOtp(false);
+        }, 1400);
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
+      toast.error("An error occurred while verifying OTP.");
     }
   };
+
   const handleSendOtpVerificationEmail = async (e) => {
     e.preventDefault();
-    const form = new FormData(e.currentTarget);
-    const email = form.get("email");
-    const response = await axios.post("/api/email-verification", {
-      email,
-    });
+    const { email } = new FormData(e.currentTarget);
 
-    toast.success(response.data.message);
-    if (response.data.status === 403) {
-      setTimeout(() => {
-        router.back();
-      }, 1000);
+    try {
+      const response = await axios.post("/api/email-verification", { email });
+
+      toast.success(response.data.message);
+
+      if (response.data.status === 403) {
+        setTimeout(() => {
+          router.back();
+        }, 1000);
+      }
+
+      if (response.data.success) {
+        setVerifyWithOtp(true);
+      }
+    } catch (error) {
+      console.error("Error sending OTP verification email:", error);
+      toast.error("An error occurred while sending OTP verification email.");
     }
-    if (response.data.success) setVerifyWithOtp(true);
+  };
+
+  const setFunctionToExecute = (e) => {
+    verifyWithOtp ? handleVerifyOtp(e) : handleSendOtpVerificationEmail(e);
   };
   return (
     <>
@@ -65,7 +75,7 @@ const EmailVerificationWithEmail = () => {
             </p>
           </div>
           <div className="card shrink-0 w-full max-w-xl shadow-2xl bg-base-100">
-            <form onSubmit={setFunctionTOExecute} className="card-body">
+            <form onSubmit={setFunctionToExecute} className="card-body">
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email Address</span>

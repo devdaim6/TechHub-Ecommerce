@@ -1,6 +1,5 @@
 "use client";
 import { Slider } from "@nextui-org/react";
-import React from "react";
 
 const FormRange = ({ name, value, onChange }) => {
   return (
