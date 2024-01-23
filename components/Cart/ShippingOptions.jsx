@@ -1,6 +1,5 @@
 "use client"
 import { setPickup } from "@/features/cart/cartSlice";
-import React from "react";
 import { useDispatch } from "react-redux";
 
 const ShippingOptions = ({ cartItemsLength, pickupAtStore }) => {

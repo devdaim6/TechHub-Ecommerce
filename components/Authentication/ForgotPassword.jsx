@@ -1,13 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 const ForgotPassword = () => {
   const router = useRouter();
   const [verifyWithOtp, setVerifyWithOtp] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('email');
+  const [selectedOption, setSelectedOption] = useState("email");
   const [value, setvalue] = useState();
 
   useEffect(() => {
@@ -15,56 +15,75 @@ const ForgotPassword = () => {
     setvalue(localStorage.getItem(selectedOption));
   }, [selectedOption]);
 
-  const setFunctionTOExecute = (e) => {
-    if (verifyWithOtp) {
-      handleVerifyOtpToResetPassword(e);
-    } else {
-      handleSendOtpToResetPassword(e);
+  const setFunctionToExecute = async (e) => {
+    try {
+      if (verifyWithOtp) {
+        await handleVerifyOtpToResetPassword(e);
+      } else {
+        await handleSendOtpToResetPassword(e);
+      }
+    } catch (error) {
+      console.error("Error executing function:", error);
+      toast.error("An error occurred while processing the request.");
     }
   };
-  const handleVerifyOtpToResetPassword = async (e) => {
-    e.preventDefault();
-    const form = new FormData(e.currentTarget);
-    const otp = form.get("otp");
-    const password = form.get("password");
-    const emailOrPhone = form.get(selectedOption);
-    const response = await axios.post("/api/forgot-password/verify-otp", {
-      findBy: emailOrPhone,
-      otp,
-      option: selectedOption,
-      newPassword: password,
-    });
 
-    toast.success(response.data.message);
-    if (response.data.success) {
-      localStorage.setItem(selectedOption,'');
-      setTimeout(() => {
-        router.back();
-      }, 1500);
-      setTimeout(() => {
-        setVerifyWithOtp(false);
-      }, 1400);
+  const handleVerifyOtpToResetPassword = async (e) => {
+    try {
+      e.preventDefault();
+      const { otp, password } = new FormData(e.currentTarget);
+      const emailOrPhone = new FormData(e.currentTarget).get(selectedOption);
+
+      const response = await axios.post("/api/forgot-password/verify-otp", {
+        findBy: emailOrPhone,
+        otp,
+        option: selectedOption,
+        newPassword: password,
+      });
+
+      toast.success(response.data.message);
+
+      if (response.data.success) {
+        localStorage.setItem(selectedOption, "");
+        setTimeout(() => {
+          router.back();
+        }, 1500);
+        setTimeout(() => {
+          setVerifyWithOtp(false);
+        }, 1400);
+      }
+    } catch (error) {
+      console.error("Error verifying OTP for password reset:", error);
+      toast.error("An error occurred while verifying OTP for password reset.");
     }
   };
 
   const handleSendOtpToResetPassword = async (e) => {
-    e.preventDefault();
-    const form = new FormData(e.currentTarget);
-    const emailOrPhone = form.get(selectedOption);
-    const response = await axios.post("/api/forgot-password", {
-      [selectedOption]: emailOrPhone,
-      typeOfMessenger: selectedOption,
-    });
+    try {
+      e.preventDefault();
+      const emailOrPhone = new FormData(e.currentTarget).get(selectedOption);
 
-    toast.success(response.data.message);
-    if (response.data.status === 403) {
-      setTimeout(() => {
-        router.back();
-      }, 1000);
+      const response = await axios.post("/api/forgot-password", {
+        [selectedOption]: emailOrPhone,
+        typeOfMessenger: selectedOption,
+      });
+
+      toast.success(response.data.message);
+
+      if (response.data.status === 403) {
+        setTimeout(() => {
+          router.back();
+        }, 1000);
+      }
+
+      if (response.data.success) {
+        setVerifyWithOtp(true);
+      }
+    } catch (error) {
+      console.error("Error sending OTP for password reset:", error);
+      toast.error("An error occurred while sending OTP for password reset.");
     }
-    if (response.data.success) setVerifyWithOtp(true);
   };
-
   const handleOptionChange = (option) => {
     localStorage.setItem("option", option);
     setSelectedOption(option);
@@ -83,7 +102,7 @@ const ForgotPassword = () => {
             </p>
           </div>
           <div className="card shrink-0 w-full max-w-xl shadow-2xl bg-base-100">
-            <form onSubmit={setFunctionTOExecute} className="card-body">
+            <form onSubmit={setFunctionToExecute} className="card-body">
               {!verifyWithOtp && (
                 <div className="flex">
                   <div className="form-control">

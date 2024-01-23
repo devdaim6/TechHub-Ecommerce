@@ -53,7 +53,7 @@ export const getBase64 = (file) => {
 
 export const setUserToLocalStorage = (user) => {
   if (typeof window !== "undefined") {
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify({ ...user, isLoggedIn: true }));
   }
 };
 

@@ -2,12 +2,10 @@
 import { editItem, removeItem } from "@/features/cart/cartSlice";
 import { generateAmountOptions } from "@/utils/util";
 import { Trash2Icon } from "lucide-react";
-import React from "react";
 import { useDispatch } from "react-redux";
 
 const CartItem = ({ cartItem }) => {
   const dispatch = useDispatch();
-
   const removeItemFromTheCart = () => {
     dispatch(removeItem({ productId }));
   };

@@ -2,7 +2,6 @@
 import { getUserFromLocalStorage } from "@/utils/util";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { toast } from "sonner";
 import AddressForm from "./AddressForm";
 

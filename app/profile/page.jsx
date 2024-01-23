@@ -1,4 +1,3 @@
-import React from "react";
 import UserProfilePage from "@/components/Profile/UserProfilePage";
 
 const page = async () => {

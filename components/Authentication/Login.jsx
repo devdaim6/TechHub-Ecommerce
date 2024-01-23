@@ -1,13 +1,17 @@
 "use client";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import ButtonLoading from "../ui/ButtonLoading";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAndLoginUser, loginUser } from "@/features/user/userSlice";
 const Login = () => {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
+  const dispatch = useDispatch();
+
   const handleLogin = async (e) => {
     try {
       setSubmitting(true);
@@ -21,13 +25,10 @@ const Login = () => {
         redirect: false,
       });
       if (res.error) {
+        console.log(res.error);
         toast.error("Invalid Credentials");
       } else {
         toast.success("Logged In Successfully !");
-
-        setTimeout(async () => {
-          router.push("/");
-        },1000);
       }
     } catch (error) {
       console.error("Login Error:", error);
@@ -35,6 +36,15 @@ const Login = () => {
       setSubmitting(false);
     }
   };
+
+  const { data: session, status } = useSession();
+  useEffect(() => {
+    if (status === "authenticated") {
+      dispatch(loginUser(session?.session?.user));
+      router.push("/");
+    }
+  }, [submitting]);
+
   return (
     <>
       <div className="hero lg:min-h-screen min-h-full bg-base-200">

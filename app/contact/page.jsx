@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
+import { getBase64 } from "@/utils/util";
 import axios from "axios";
 import { toast } from "sonner";
-import { getBase64 } from "@/utils/util";
 const ContactUSPage = () => {
   const handleContactForm = async (e) => {
     try {

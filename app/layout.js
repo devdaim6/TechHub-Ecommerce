@@ -1,19 +1,20 @@
-import Nav from "@/components/Navbar/Nav";
-import "./globals.css";
-import "react-date-range/dist/styles.css";
-import "react-date-range/dist/theme/default.css";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { WebVitals } from "@/components/WebVitals";
-import TopContent from "@/components/Header/TopContent";
-import Footer from "@/components/Footer/Footer";
 import {
   AuthProvider,
+  NextProvider,
   QueryProvider,
   StoreProvider,
-  NextProvider,
 } from "@/app/Provider";
+import Footer from "@/components/Footer/Footer";
+import TopContent from "@/components/Header/TopContent";
+import Nav from "@/components/Navbar/Nav";
+import { WebVitals } from "@/components/WebVitals";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 import { Toaster } from "sonner";
+import "./globals.css";
+
 export const viewport = {
   width: "device-width",
   initialScale: 1,
@@ -40,11 +41,7 @@ export const metadata = {
       "Explore a world of innovation at Tech Hub. We design dreams into reality. Discover a wide range of tech products and personalized services. Your one-stop Ecommerce Store.",
     site_name: "Tech Hub", // Your site name
   },
-  // icons: {
-  //   icon: "/icon.png",
-  //   shortcut: "/shortcut-icon.png",
-  //   apple: "/apple-icon.png",
-  // },
+
   robots: {
     index: true,
     follow: true,

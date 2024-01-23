@@ -1,10 +1,9 @@
 "use client";
-import ProductCard from "@/components/Products/ProductCard";
-import ButtonLoading from "@/components/ui/ButtonLoading";
 import ScreenLoading from "@/components/ui/ScreenLoading";
 import WishlistCard from "@/components/ui/WishlistCard";
 import { useUser } from "@/hooks/useUser";
 import { getUserFromLocalStorage } from "@/utils/util";
+import Link from "next/link";
 
 const Wishlist = () => {
   const removeFromWishlist = (itemId) => {};
@@ -29,7 +28,12 @@ const Wishlist = () => {
         ) : (
           <>
             {data?.length === 0 ? (
-              <p className="text-gray-500">Your wishlist is empty.</p>
+              <div className="flex flex-col items-center  justify-center min-h-[80vh] lg:min-h-screen gap-1">
+                <p className=" info-content">Your wishlist is empty.</p>
+                <Link href="/products" className="btn btn-accent">
+                  Return to Products
+                </Link>
+              </div>
             ) : (
               <ul className="grid grid-cols-1 w-full lg:grid-cols-3 gap-1">
                 {data?.map((product) => (

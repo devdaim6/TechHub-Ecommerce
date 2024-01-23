@@ -1,5 +1,4 @@
-import React from "react";
-import Checkout from "@/components/Products/Checkout"
+import Checkout from "@/components/Products/Checkout";
 const page = () => {
   return (
     <>
