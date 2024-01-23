@@ -1,4 +1,7 @@
 "use client";
+
+import { SearchIcon } from "lucide-react";
+
 const FormInput = ({
   label,
   name,
@@ -9,18 +12,32 @@ const FormInput = ({
   size,
 }) => {
   return (
-    <div className="form-control">
+    <div className="form-control mt-4">
       <label htmlFor={name} className="label">
-        <span className="label-text capitalize">{label}</span>
+        <span className="label-text capitalize">
+          {label === "search" ? "" : label}
+        </span>
       </label>
-      <input
-        type={type}
-        name={name}
-        defaultValue={defaultValue}
-        value={value}
-        onChange={onChange}
-        className={` w-[83vw] lg:w-[90vw]  input input-bordered ${size}`}
-      />
+      <div className="flex">
+        {label == "search" && (
+          <span className="flex items-center border bg-foreground  border-neutral rounded-l-lg">
+            <SearchIcon />
+          </span>
+        )}
+        <input
+          type={type}
+          name={name}
+          spellCheck={label == "search" ? true : false}
+          defaultValue={defaultValue}
+          value={value}
+          onChange={onChange}
+          className={`  w-[75vw] lg:w-[93vw]  input ${
+            label === "search"
+              ? "border-neutral border rounded-l-none"
+              : "lg:input-bordered"
+          } ${size}`}
+        />
+      </div>
     </div>
   );
 };

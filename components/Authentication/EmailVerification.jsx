@@ -1,15 +1,15 @@
 "use client";
 import { useEmailVerification } from "@/hooks/useEmailVerification";
-import { useSession } from "next-auth/react";
-import React from "react";
-import { toast } from "sonner";
+import { getUserFromLocalStorage } from "@/utils/util";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const EmailVerification = () => {
-  const { data: session } = useSession();
-
-  const email = session?.session?.user?.email;
-  const { data } = useEmailVerification(email);
+  const { data, refetch } = useEmailVerification(
+    getUserFromLocalStorage()?.email
+  );
+  const router = useRouter();
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
@@ -17,7 +17,7 @@ const EmailVerification = () => {
     const otp = form.get("otp");
     try {
       const response = await axios.post("/api/email-verification/verify-otp", {
-        email,
+        email: getUserFromLocalStorage()?.email,
         otp,
       });
 
@@ -25,7 +25,7 @@ const EmailVerification = () => {
 
       if (response.data.success) {
         setTimeout(() => {
-          router.back();
+          router.push("/profile");
         }, 1500);
       }
     } catch (error) {
@@ -54,7 +54,7 @@ const EmailVerification = () => {
                 <input
                   disabled
                   name="email"
-                  value={email}
+                  value={getUserFromLocalStorage()?.email}
                   placeholder="Your Email Address"
                   className="input input-bordered"
                 />

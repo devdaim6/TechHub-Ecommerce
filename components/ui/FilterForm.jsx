@@ -12,16 +12,10 @@ import {
   setPriceRange,
   setSortBy,
 } from "@/features/filters/filterSlice";
+import { useDispatch } from "react-redux";
 
-const FilterForm = ({ filters, dispatch }) => {
-  // const handleTagsChange = (e) => {
-  //   const selectedOptions = Array.from(
-  //     e.target.selectedOptions,
-  //     (option) => option.value
-  //   );
-  //   dispatch(setTags(selectedOptions));
-  // };
-
+const FilterForm = ({ filters }) => {
+  const dispatch = useDispatch();
   const handleSortByChange = (e) => {
     dispatch(setSortBy(e.target.value));
   };
@@ -49,7 +43,7 @@ const FilterForm = ({ filters, dispatch }) => {
 
   return (
     <>
-      <div className=" lg:grid  grid-cols-1 gap-y-1  gap-x-4   lg:grid-cols-2">
+      <div className=" lg:w-[50vw] bg-base-300 flex flex-col p-10 h-screen  ">
         <FormSelect
           label="Sort by"
           name="sortBy"
@@ -152,25 +146,6 @@ const FilterForm = ({ filters, dispatch }) => {
           onChange={handlePriceRangeChange}
         />
 
-        {/* <div>
-        <FormMultipleSelect
-          label={"Tags"}
-          name={"tags"}
-          tags={filters.tags}
-          onChange={handleTagsChange}
-          list={[
-            { id: 1, label: "New", value: "New" },
-            { id: 2, label: "Featured", value: "Featured" },
-            { id: 3, label: "Stationary", value: "Stationary" },
-            { id: 4, label: "Electronics", value: "Electronics" },
-            { id: 5, label: "Customized Mugs", value: "Mugs" },
-            { id: 6, label: "Customized Shirt Printing", value: "Shirts" },
-            { id: 7, label: "Customized Vector Frames", value: "Vector" },
-          ]}
-          defaultValue={["New"]}
-          size={"select-sm"}
-        />
-      </div> */}
         <div>
           <FormCheckbox
             name="shipping"

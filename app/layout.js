@@ -73,11 +73,11 @@ export default function RootLayout({ children }) {
                 <TopContent />
                 <Toaster closeButton position="top-center" />
                 <Nav />
-                {children}
+                <div className="mt-[4.5rem]">{children}</div>
+                <Footer />
                 <SpeedInsights />
                 <Analytics />
                 <WebVitals />
-                <Footer />
               </StoreProvider>
             </AuthProvider>
           </QueryProvider>

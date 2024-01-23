@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect } from "react";
-import ThemeSelectorButton from "./ThemeSelectorButton";
-import ThemeSelector from "./ThemeSelector";
+import { logoutUser } from "@/features/user/userSlice";
+import { isWithinSevenDays } from "@/utils/util";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { signOut } from "next-auth/react";
 import UserAvatarSkeleton from "../ui/UserAvatarSkeleton";
-import { logoutUser } from "@/features/user/userSlice";
+import ThemeSelector from "./ThemeSelector";
+import ThemeSelectorButton from "./ThemeSelectorButton";
 const Nav = () => {
   const dispatch = useDispatch();
   const handleSignOut = async () => {
@@ -18,7 +18,7 @@ const Nav = () => {
   const numItemsInCart = useSelector((state) => state.cartState.numItemsInCart);
   const cartTotal = useSelector((state) => state.cartState.cartTotal);
   return (
-    <div className="navbar bg-base-100 mb-0 border-b border-b-neutral">
+    <div className="navbar bg-base-100 top-nav border-b border-b-base-300 fixed  z-10">
       <div className="navbar-start lg:hidden md:flex">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -157,7 +157,10 @@ const Nav = () => {
                   <li>
                     <Link href="/profile" className="justify-between">
                       Profile
-                      <span className="badge-secondary badge">New</span>
+                      {user?.createdAt &&
+                        isWithinSevenDays(user?.createdAt) && (
+                          <span className="badge-warning badge">New</span>
+                        )}
                     </Link>
                   </li>
                   <li>

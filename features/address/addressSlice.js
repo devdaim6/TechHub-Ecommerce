@@ -27,6 +27,9 @@ const addressSlice = createSlice({
     selectAddress: (state, action) => {
       state.selectedAddress = action.payload;
     },
+    setAddress: (state, action) => {
+      state.addresses = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -44,7 +47,7 @@ const addressSlice = createSlice({
   },
 });
 
-export const { selectAddress } = addressSlice.actions;
+export const { selectAddress, setAddress } = addressSlice.actions;
 
 export const selectAddresses = (state) => state.addresses.addresses;
 export const selectSelectedAddress = (state) => state.addresses.selectedAddress;

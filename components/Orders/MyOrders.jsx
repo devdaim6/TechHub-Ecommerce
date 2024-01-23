@@ -1,46 +1,35 @@
 "use client";
+import { useOrder } from "@/hooks/useOrder";
 import {
   getUserFromLocalStorage,
   openFilterDate,
   openFilterLabel,
 } from "@/utils/util";
-import axios from "axios";
 import { CalendarDaysIcon, FilterIcon, PackageSearchIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import FilterLabelModal from "./FilterLabelModal";
-import FilterDateModal from "./FilterDateModal";
-import OrderList from "./OrderList";
 import ScreenLoading from "../ui/ScreenLoading";
+import FilterDateModal from "./FilterDateModal";
+import FilterLabelModal from "./FilterLabelModal";
+import OrderList from "./OrderList";
 
 const MyOrders = () => {
   const date = useSelector((state) => state.dateRange.date);
-  const [myOrders, setMyOrders] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { data, isLoading, refetch } = useOrder(
+    getUserFromLocalStorage()?.id,
+    date
+  );
   useEffect(() => {
-    try {
-      setLoading(true);
-      const fetchOrders = async () => {
-        const response = await axios.get(
-          `/api/user/${getUserFromLocalStorage()?.id}?field=orders&startDate=${
-            date[0]?.startDate
-          }&endDate=${date[0]?.endDate}`
-        );
-        setMyOrders(response?.data);
-        console.log(response.data);
-      };
-      fetchOrders();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    refetch();
   }, [date]);
 
   return (
     <>
-      {!myOrders || loading ? (
-        <ScreenLoading />
+      {!data || isLoading ? (
+        <ScreenLoading
+          upperText={"Your Orders are being Loaded"}
+          lowerText={"please wait a moment..."}
+        />
       ) : (
         <div>
           <h1 className="text-xl pt-4  font-semibold text-center">
@@ -69,9 +58,14 @@ const MyOrders = () => {
               />
             </div>
           </div>
-          {myOrders &&
-            myOrders.map((order, index) => (
-              <OrderList key={index} index={index} order={order} />
+          {data &&
+            data.map((order, index) => (
+              <OrderList
+                refetch={refetch}
+                key={index}
+                index={index}
+                order={order}
+              />
             ))}
         </div>
       )}

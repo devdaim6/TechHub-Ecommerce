@@ -1,7 +1,6 @@
 import { connectMongoDB } from "@/lib/db";
 import Product from "@/models/product";
 import User from "@/models/user";
-import { redis } from "@/utils/redis";
 import { NextResponse } from "next/server";
 
 export async function GET(req, { params }) {
@@ -17,8 +16,13 @@ export async function GET(req, { params }) {
     startOfDay.setHours(0, 0, 0, 0);
 
     await connectMongoDB();
+    const userProjection = field
+      ? `${field}`
+      : "-reviews -cart -savedAddresses -wishlist -orders";
+
+    let user;
     if (field === "orders") {
-      const user = await User.findOne(
+      user = await User.findOne(
         {
           _id: userId,
           "orders.createdAt": {
@@ -38,16 +42,19 @@ export async function GET(req, { params }) {
         (a, b) => b.createdAt - a.createdAt
       );
       return NextResponse.json(sortedOrdersArray);
+    } else {
+      user = await User.findOne({ _id: userId }).select(userProjection);
     }
-    const cachedField = await redis.get(
-      `user-${field ? field : "profile"}-${userId}`
-    );
-    if (cachedField) {
-      const parsedField = JSON.parse(cachedField);
-      return NextResponse.json(parsedField);
+
+    if (!user) {
+      return NextResponse.json({
+        message: "User not found",
+        success: false,
+        status: 404,
+      });
     }
-    if (field === "wishlist") {
-      const user = await User.findOne({ _id: userId }).select("wishlist");
+
+    if (field == "wishlist") {
       const populatedWishlist = await Promise.all(
         user?.wishlist.map(async (wishlistItem) => {
           const productDetails = await Product.findById(
@@ -59,38 +66,10 @@ export async function GET(req, { params }) {
           };
         })
       );
-
-      await redis.setex(
-        `user-${"wishlist"}-${userId}`,
-        30,
-        JSON.stringify(populatedWishlist)
-      );
-
       return NextResponse.json(populatedWishlist);
     }
 
-    const user = await User.findOne({ _id: userId });
-    if (!user) {
-      return NextResponse.json({
-        message: "User not found",
-        success: false,
-        status: 404,
-      });
-    }
-    const { orders, wishlist, savedAddresses, cart, reviews, ...restUser } =
-      user.toObject();
-
-    if (field) {
-      const selectedField = user[field];
-      await redis.setex(
-        `user-${field ? field : "profile"}-${userId}`,
-        30,
-        JSON.stringify(selectedField)
-      );
-      return NextResponse.json(selectedField);
-    }
-
-    return NextResponse.json(restUser);
+    return NextResponse.json(user?.[field] || user);
   } catch (error) {
     console.error("Error:", error);
     return NextResponse.json({
