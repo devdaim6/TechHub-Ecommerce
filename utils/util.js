@@ -141,3 +141,11 @@ export const removeFromCart = async (productId) => {
   });
   return res;
 };
+
+export const isWithinSevenDays = (createdAt) => {
+  const createdAtDate = new Date(createdAt);
+  const currentDate = new Date();
+  const threeDaysAgo = new Date();
+  threeDaysAgo.setDate(currentDate.getDate() - 7);
+  return createdAtDate >= threeDaysAgo && createdAtDate <= currentDate;
+};

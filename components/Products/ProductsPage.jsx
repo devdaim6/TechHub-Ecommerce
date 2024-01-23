@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import ScreenLoading from "../ui/ScreenLoading";
 import ProductGrid from "./ProductGrid";
 import Link from "next/link";
+import CardSkeleton from "../ui/CardSkeleton";
 
 const ProductsPage = () => {
   const filters = useSelector((state) => state.filter);
@@ -29,7 +30,13 @@ const ProductsPage = () => {
         filters={filters}
         totalProducts={length}
       />
-      {loading ? <ScreenLoading /> : <ProductGrid products={products} />}
+      {loading ? (
+        <div className="flex justify-center flex-col mt-16 lg:flex-row">
+          <CardSkeleton length={filters?.perPage} />
+        </div>
+      ) : (
+        <ProductGrid products={products} />
+      )}
       <Pagination
         totalPages={totalPages}
         currentPage={currentPage}

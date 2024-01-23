@@ -48,7 +48,7 @@ const SingleProduct = ({ name, productId, productCode }) => {
     dispatch(
       addItem({
         productId: productId,
-        productCode: product?.data?.productCode,
+        productCode: data?.productCode,
         quantity: product?.quantity,
         price: product?.price || data?.price,
         productColor: product?.productColor || data?.colors[0],
@@ -61,8 +61,11 @@ const SingleProduct = ({ name, productId, productCode }) => {
 
   return (
     <>
-      {isLoading ? (
-        <ScreenLoading />
+      {isLoading || !data ? (
+        <ScreenLoading
+          upperText={"Products Details are being Loaded."}
+          lowerText={`Please wait a moment ...`}
+        />
       ) : (
         <>
           {" "}

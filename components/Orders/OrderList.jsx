@@ -6,7 +6,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import RenderOrderStatus from "../ui/RenderOrderStatus";
 import ProductCancelModal from "./ProductCancelModal";
-const OrderList = ({ order, index }) => {
+const OrderList = ({ order, index, refetch }) => {
   const [isOpen, setIsOpen] = useState(false);
   const handleCancelOrder = async (orderCode) => {
     const res = await fetch("/api/orders?cancelledBy=user", {
@@ -19,11 +19,11 @@ const OrderList = ({ order, index }) => {
         orderCode,
         orderStatus: "cancelled",
       }),
-      cache: "no-store",
     });
     const response = await res.json();
     if (response?.success) {
       setIsOpen(false);
+      refetch();
       toast.success("Order Cancelled");
     }
   };
@@ -55,7 +55,10 @@ const OrderList = ({ order, index }) => {
                 </span>
                 <span className="flex-grow text-center text-[10px] lg:text-[.8rem]">
                   Total{" "}
-                  <p className="font-semibold"> &#8377;{order?.totalAmount}</p>
+                  <p className="font-semibold">
+                    {" "}
+                    &#8377;{order?.totalAmount.toFixed(2)}
+                  </p>
                 </span>
                 <span className="flex-grow text-center text-[10px] lg:text-[.8rem]">
                   SHIP TO{" "}
@@ -94,7 +97,7 @@ const OrderList = ({ order, index }) => {
                           scroll={false}
                           href={`/products/${decodeURIComponent(
                             orderItem?.name
-                          )}/${decodeURIComponent(order?.productCode)}/${
+                          )}/${decodeURIComponent(orderItem?.productCode)}/${
                             orderItem?.productId
                           }`}
                         >
@@ -109,23 +112,33 @@ const OrderList = ({ order, index }) => {
                           order?.orderStatus === "cancelled" ? "opacity-25" : ""
                         }`}
                       >
-                        <p>
-                          <span className="">Payment Method</span> :{" "}
-                          <span className="uppercase font-semibold ">
+                        <p className="flex justify-center items-center flex-col lg:flex-row">
+                          <span className="lg:text-lg text-sm">
+                            Payment Method{" "}
+                            <span className="lg:inline hidden"> : </span>&nbsp;
+                          </span>{" "}
+                          <span className="uppercase text-sm lg:text-lg  font-semibold ">
                             {order?.paymentOption}
                           </span>
                         </p>
-                        <p>
-                          <span className="">Shipping</span> :{" "}
-                          <span className="uppercase font-semibold ">
+                        <p className="flex justify-center items-center flex-col lg:flex-row">
+                          <span className="lg:text-lg text-sm">
+                            Shipping{" "}
+                            <span className="lg:inline hidden"> : </span> &nbsp;
+                          </span>
+
+                          <span className="uppercase text-sm lg:text-lg  font-semibold ">
                             {order?.pickUpAtStore
                               ? "Pickup At Store"
                               : "To be Delivered"}
                           </span>
                         </p>
-                        <p>
-                          <span className="">Payment Status</span> :{" "}
-                          <span className="uppercase font-semibold ">
+                        <p className="flex justify-center items-center flex-col lg:flex-row">
+                          <span className="lg:text-lg text-sm">
+                            Payment Status{" "}
+                            <span className="lg:inline hidden"> : </span> &nbsp;
+                          </span>{" "}
+                          <span className="uppercase text-sm lg:text-lg  font-semibold ">
                             {order?.paymentStatus}
                           </span>
                         </p>

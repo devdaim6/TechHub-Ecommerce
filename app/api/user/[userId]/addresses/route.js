@@ -122,6 +122,8 @@ export async function PATCH(req, { params }) {
 export async function DELETE(req, { params }) {
   const { userId } = params;
   const { addressId } = await req.json();
+
+  console.log(addressId);
   try {
     await connectMongoDB();
     const user = await User.findOne({ _id: userId });
@@ -152,6 +154,7 @@ export async function DELETE(req, { params }) {
     return NextResponse.json({
       message: "Address removed",
       success: true,
+      addresses: user.savedAddresses,
     });
   } catch (error) {
     console.error("Error:", error);

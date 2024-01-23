@@ -14,7 +14,7 @@ const defaultState = {
   cartItems: [],
   numItemsInCart: 0,
   cartTotal: 0,
-  userId: null,
+  userId: getUserFromLocalStorage()?.id,
   shipping: 50,
   orderTotal: 0,
   pickupAtStore: false,

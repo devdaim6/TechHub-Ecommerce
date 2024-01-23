@@ -1,4 +1,5 @@
 import {
+  getUserFromLocalStorage,
   removeUserFromLocalStorage,
   setUserToLocalStorage,
 } from "@/utils/util";
@@ -6,7 +7,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 
 const initialState = {
-  user: null,
+  user: getUserFromLocalStorage(),
 };
 
 const userSlice = createSlice({

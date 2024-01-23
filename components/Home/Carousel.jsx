@@ -36,7 +36,7 @@ const Carousel = () => {
   }, [currentSlide, slides?.length]);
 
   return (
-    <div className="carousel carousel-center  lg:w-[50rem] p-4 space-x-4 bg-neutral rounded-box">
+    <div className="carousel carousel-center  lg:w-[50rem] p-2 space-x-4 bg-neutral rounded-box">
       {slides?.map((slide) => (
         <div
           key={slide?.slideNumber}
@@ -49,7 +49,7 @@ const Carousel = () => {
             <img
               alt={slide?.slideNumber}
               src={slide?.src}
-              className="w-[25rem] h-[20rem]"
+              className="w-[25rem] h-[20rem] rounded-lg"
             />
           </Link>
         </div>

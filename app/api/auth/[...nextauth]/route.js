@@ -48,9 +48,9 @@ export const authOptions = {
       if (sessionUser) {
         session.token.role = sessionUser?.role;
         session.token.isVerified = sessionUser?.isVerified;
+        session.session.user.createdAt = sessionUser?.createdAt;
         session.session.user.image = sessionUser?.image;
         session.session.user.id = sessionUser?._id;
-        session.session.user.email = null;
         session.session.user.isVerified = sessionUser?.isVerified;
       }
       return session;

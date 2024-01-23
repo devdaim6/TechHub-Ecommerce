@@ -1,20 +1,17 @@
 "use client";
 import FormInput from "@/components/Form/FormInput";
 import { setSearchProduct } from "@/features/filters/filterSlice";
-import { useDispatch } from "react-redux";
-import FilterForm from "./FilterForm";
-import FilterModal from "./FilterModal";
-import { useWindowWidth } from "@react-hook/window-size";
-import { useEffect } from "react";
 import {
   setProducts,
   setProductsLoading,
 } from "@/features/products/productSlice";
 import { getFilteredProducts } from "@/utils/filterFunction";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import Drawer from "./Drawer";
+
 const Filters = ({ currentPage, filters, totalProducts }) => {
   const dispatch = useDispatch();
-  const widthOfWindow = useWindowWidth();
-
   const handleSearchProductChange = (e) => {
     dispatch(setSearchProduct(e.target.value));
   };
@@ -44,6 +41,7 @@ const Filters = ({ currentPage, filters, totalProducts }) => {
       dispatch(setProductsLoading({ loading: false }));
     }
   };
+
   return (
     <>
       {" "}
@@ -52,43 +50,26 @@ const Filters = ({ currentPage, filters, totalProducts }) => {
         onSubmit={handleSearch}
         className=" bg-base-200 rounded-md px-3 py-4 grid gap-x-2  gap-y-4  items-center"
       >
-        <div className="flex  overflow-x-hidden">
-          <div className="lg:w-1/2">
+        <div className="flex  overflow-x-hidden flex gap-x-4">
+          <div className="">
             <FormInput
               type="search"
-              label="search product"
+              label="search"
               name="search"
               value={filters?.searchProduct}
               size="input-sm"
               onChange={handleSearchProductChange}
             />
           </div>
-          {widthOfWindow < 799 && (
-            <FilterModal
-              filters={filters}
-              dispatch={dispatch}
-              handleSearchProductChange={handleSearchProductChange}
-            />
-          )}
+          <Drawer filters={filters} />
         </div>
       </form>
-      {widthOfWindow > 799 && (
-        <form
-          method="dialog"
-          onSubmit={handleSearch}
-          className=" bg-base-200 rounded-md px-3 py-4 grid gap-x-2  gap-y-1  items-center"
-        >
-          <div className="lg:grid hidden">
-            <FilterForm filters={filters} dispatch={dispatch} />
-          </div>
-        </form>
-      )}
       {totalProducts > 0 && (
-        <div className="flex justify-between bg-base-300">
-          <span className="py-1 text-accent">
+        <div className="flex justify-end p-3  mt-1 mr-2">
+          <div className="badge badge-ghost p-3">
             {totalProducts === 1 ? `${totalProducts} Product` : "Products"}{" "}
             Found{" "}
-          </span>
+          </div>
         </div>
       )}
     </>

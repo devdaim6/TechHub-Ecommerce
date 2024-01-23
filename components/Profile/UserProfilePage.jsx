@@ -16,12 +16,14 @@ const UserProfilePage = () => {
   if (isLoading || user?.status !== "authenticated") {
     return (
       <>
-        <ScreenLoading />
+        <ScreenLoading
+          upperText={"Your Profile is being Loaded."}
+          lowerText={`Please wait a moment ...`}
+        />
       </>
     );
   }
   const handleChangePreferences = async (e, id) => {
-    // console.log(, id);
     const response = await axios.patch(`/api/user/${id}/notification`, {
       notification: e.target.checked,
     });
@@ -32,10 +34,12 @@ const UserProfilePage = () => {
   return (
     <>
       {!isLoading && data && (
-        <div className="my-5 min-h-screen bg-background">
+        <div className="my-5 min-h-screen bg-background ">
           <div className=" flex-col   ">
-            <div className="text-center text-left">
-              <h1 className="text-5xl font-bold">Profile</h1>
+            <div className="text-center mt-2 py-1 text-left">
+              <h1 className="text-3xl font-bold">
+                <div className="divider">{data?.name}</div>
+              </h1>
             </div>
             <div className="card shrink-0 lg:w-screen min-w-full max-w-3xl shadow-2xl bg-base-100">
               <form className="card-body">

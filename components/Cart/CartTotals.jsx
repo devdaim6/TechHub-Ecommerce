@@ -8,6 +8,7 @@ const CartTotals = () => {
 
   return (
     <>
+    
       {cartTotal > 0 && (
         <>
           {" "}

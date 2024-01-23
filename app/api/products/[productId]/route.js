@@ -1,20 +1,24 @@
 import { connectMongoDB } from "@/lib/db";
 import Product from "@/models/product";
+import { redis } from "@/utils/redis";
 import { NextResponse } from "next/server";
 
 export async function GET(req, { params }) {
-  await connectMongoDB();
   const { searchParams } = new URL(req.url);
   const { productId } = params;
   const field = searchParams.get("field");
-  const product = await Product.findById(productId);
-  const { reviews, ...productDetails } = product.toObject();
+
+  await connectMongoDB();
   if (field == "reviews") {
-    return NextResponse.json(reviews);
+    const product = await Product.findOne({ _id: productId }).select("reviews");
+    return NextResponse.json(product?.reviews);
   }
+
+  const product = await Product.findOne({ _id: productId }).select("-reviews");
   if (field == product?.productCode) {
-    return NextResponse.json(productDetails);
+    return NextResponse.json(product);
   }
+
   return NextResponse.json({ error: "Field must be specified" });
 }
 
