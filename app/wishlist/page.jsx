@@ -6,12 +6,11 @@ import { getUserFromLocalStorage } from "@/utils/util";
 import Link from "next/link";
 
 const Wishlist = () => {
-  const removeFromWishlist = (itemId) => {};
-
-  const { isLoading, data } = useUser(
+  const { isLoading, data, refetch } = useUser(
     getUserFromLocalStorage()?.id,
     "wishlist"
   );
+
   return (
     <>
       <div className="max-w-screen min-h-screen  mx-auto ">
@@ -38,7 +37,11 @@ const Wishlist = () => {
               <ul className="grid grid-cols-1 w-full lg:grid-cols-3 gap-1">
                 {data?.map((product) => (
                   <>
-                    <WishlistCard key={product?._id} product={product} />
+                    <WishlistCard
+                      refetch={refetch}
+                      key={product?._id}
+                      product={product}
+                    />
                   </>
                 ))}
               </ul>

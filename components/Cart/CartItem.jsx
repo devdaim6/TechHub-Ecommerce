@@ -2,6 +2,7 @@
 import { editItem, removeItem } from "@/features/cart/cartSlice";
 import { generateAmountOptions } from "@/utils/util";
 import { Trash2Icon } from "lucide-react";
+import Link from "next/link";
 import { useDispatch } from "react-redux";
 
 const CartItem = ({ cartItem }) => {
@@ -12,7 +13,15 @@ const CartItem = ({ cartItem }) => {
   const handleQuantity = (e) => {
     dispatch(editItem({ productId, quantity: parseInt(e.target.value) }));
   };
-  const { productId, name, price, imageUrl, quantity, productColor } = cartItem;
+  const {
+    productId,
+    productCode,
+    name,
+    price,
+    imageUrl,
+    quantity,
+    productColor,
+  } = cartItem;
 
   return (
     <>
@@ -20,12 +29,13 @@ const CartItem = ({ cartItem }) => {
         key={productId}
         className="mb-8 gap-x-2  flex lg:items-center border-b border-base-300 pb-4 last:border-b-0"
       >
-        <img
-          src={imageUrl}
-          alt={name}
-          className="h-24 w-24 rounded-lg sm:h-32 sm:w-32 object-cover mb-4 sm:mb-0 sm:mr-4"
-        />
-
+        <Link href={`/products/${name}/${productCode}/${productId}/`}>
+          <img
+            src={imageUrl}
+            alt={name}
+            className="h-24 w-24 rounded-lg sm:h-32 sm:w-32 object-cover mb-4 sm:mb-0 sm:mr-4"
+          />
+        </Link>
         <div className="flex-1">
           <div className="flex flex-col sm:flex-row lg:justify-between justify-start items-start">
             <div>

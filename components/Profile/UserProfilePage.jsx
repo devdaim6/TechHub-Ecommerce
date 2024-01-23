@@ -4,12 +4,29 @@ import { getUserFromLocalStorage } from "@/utils/util";
 import axios from "axios";
 import Link from "next/link";
 import ScreenLoading from "../ui/ScreenLoading";
+import { useMemo, useState } from "react";
 
 const UserProfilePage = () => {
   const user = getUserFromLocalStorage();
+  const { data, isLoading, refetch } = useUser(user?.id);
+  const [notifications, setNotifications] = useState(null);
+  useMemo(() => setNotifications(data?.notificationPreferences?.email), [data]);
 
-  const { data, isLoading } = useUser(user?.id);
-
+  const handleChangePreferences = async (isChecked) => {
+    try {
+      const response = await axios.patch(
+        `/api/user/${data?._id}/notification`,
+        {
+          notification: isChecked,
+        }
+      );
+      refetch();
+      console.log(response?.data);
+    } catch (error) {
+      console.error("Error updating notification preferences:", error);
+    }
+  };
+  
   if (isLoading || !user?.isLoggedIn) {
     return (
       <>
@@ -20,12 +37,6 @@ const UserProfilePage = () => {
       </>
     );
   }
-  const handleChangePreferences = async (e, id) => {
-    const response = await axios.patch(`/api/user/${id}/notification`, {
-      notification: e.target.checked,
-    });
-    console.log(response?.data);
-  };
   return (
     <>
       {!isLoading && data && (
@@ -128,11 +139,16 @@ const UserProfilePage = () => {
                       <span>Notification Preferences</span>
                       <input
                         type="checkbox"
-                        onClick={(e) => handleChangePreferences(e, data?._id)}
+                        onChange={(e) => {
+                          const isChecked = e.target.checked;
+                          setNotifications(isChecked);
+                          handleChangePreferences(isChecked);
+                        }}
                         className="mt-1 toggle toggle-success"
                         value={
                           data?.notificationPreferences?.email ? "on" : "off"
                         }
+                        checked={notifications}
                       />
                     </div>
                   </div>

@@ -11,7 +11,7 @@ export async function POST(req) {
 
     if (!user) {
       return NextResponse.json({
-        message: "User not found.",
+        message: "Login Required for Adding item to Wishlist",
         success: false,
         status: 404,
       });
@@ -61,9 +61,8 @@ export async function DELETE(req) {
       });
     }
 
-    // Check if the productId is in the wishlist
-    const wishlistItemIndex = user.wishlist.findIndex((item) =>
-      item.productId.equals(productId)
+    const wishlistItemIndex = user?.wishlist?.findIndex(
+      (item) => item?.productId == productId
     );
 
     if (wishlistItemIndex === -1) {
@@ -74,7 +73,6 @@ export async function DELETE(req) {
       });
     }
 
-    // Remove the item from the wishlist array
     user.wishlist.splice(wishlistItemIndex, 1);
     await user.save();
 
