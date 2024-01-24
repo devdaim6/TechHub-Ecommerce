@@ -18,7 +18,7 @@ const AddAddress = () => {
     if (response?.data?.success) {
       e.target.reset();
       toast.success(response?.data?.message);
-      router.push("/addresses");
+      router.back();
     } else {
       toast.error(response?.data?.message);
     }
