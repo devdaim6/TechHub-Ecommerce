@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-const AddressSkeleton = () => {
+const AddressSkeleton = ({upperText,lowerText}) => {
   return (
     <>
       <div className="flex flex-col gap-4  w-full mb-10">
