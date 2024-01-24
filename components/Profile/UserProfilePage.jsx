@@ -26,7 +26,7 @@ const UserProfilePage = () => {
       console.error("Error updating notification preferences:", error);
     }
   };
-  
+
   if (isLoading || !user?.isLoggedIn) {
     return (
       <>
@@ -52,7 +52,7 @@ const UserProfilePage = () => {
                 <img
                   src={data?.image}
                   alt="image"
-                  className="mx-auto border rounded-full w-24 h-24 "
+                  className="mx-auto border rounded-full w-40 h-40"
                 />
                 <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 ">
                   <div className="form-control ">
