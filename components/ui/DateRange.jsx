@@ -3,11 +3,15 @@ import { DateRangePicker } from "react-date-range";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setDate } from "@/features/date/dateSlice";
-const DateRange = () => {
+const DateRange = ({ refetch }) => {
   const dispatch = useDispatch();
   const date = useSelector((state) => state.dateRange.date);
   const handleDateChange = (item) => {
+    const { startDate, endDate } = item.selection;
     dispatch(setDate({ selection: item.selection }));
+    if (endDate && startDate.toString() !== endDate.toString()) {
+      refetch();
+    }
   };
   return (
     <>

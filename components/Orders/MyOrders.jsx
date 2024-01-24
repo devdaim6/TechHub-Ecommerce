@@ -6,13 +6,12 @@ import {
   openFilterLabel,
 } from "@/utils/util";
 import { CalendarDaysIcon, FilterIcon, PackageSearchIcon } from "lucide-react";
-import { useEffect } from "react";
+import Link from "next/link";
 import { useSelector } from "react-redux";
 import ScreenLoading from "../ui/ScreenLoading";
 import FilterDateModal from "./FilterDateModal";
 import FilterLabelModal from "./FilterLabelModal";
 import OrderList from "./OrderList";
-import Link from "next/link";
 
 const MyOrders = () => {
   const date = useSelector((state) => state.dateRange.date);
@@ -20,9 +19,6 @@ const MyOrders = () => {
     getUserFromLocalStorage()?.id,
     date
   );
-  useEffect(() => {
-    refetch();
-  }, [date]);
 
   return (
     <>
@@ -39,11 +35,12 @@ const MyOrders = () => {
           <div className="flex justify-end gap-x-4  mr-4 mb-5 pb-5">
             <div onClick={openFilterLabel} className="cursor-pointer">
               <FilterIcon />
-              <FilterLabelModal />
+              <FilterLabelModal  refetch={refetch}/>
             </div>
             <div onClick={openFilterDate} className="cursor-pointer">
               <CalendarDaysIcon />
-              <FilterDateModal />
+     
+              <FilterDateModal refetch={refetch}/>
             </div>
             <div className="flex bg-neutral-content/30  rounded-md ">
               <span className="mx-1 my-1 cursor-pointer">
