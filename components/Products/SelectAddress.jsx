@@ -1,17 +1,15 @@
 "use client";
-import { getUserFromLocalStorage } from "@/utils/util";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   fetchUserAddresses,
   selectAddress,
   selectAddresses,
   selectSelectedAddress,
 } from "@/features/address/addressSlice";
+import { getUserFromLocalStorage } from "@/utils/util";
 import { ScrollShadow } from "@nextui-org/react";
-import ScreenLoading from "../ui/ScreenLoading";
-import AddressSkeleton from "../ui/AddressSkeleton";
 import Link from "next/link";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const SelectAddress = () => {
   const dispatch = useDispatch();
